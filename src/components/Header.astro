@@ -16,7 +16,7 @@ const isActive = (href: string) => {
   return path.startsWith(href);
 };
 
-// Mismo orden que argcol.com.ar. "Access" queda fuera a pedido del usuario.
+// Nombres y orden del menú de Blogger. "Access" queda fuera a pedido del usuario.
 const links = [
   { href: "/", label: "Home" },
   { href: "/sobre/", label: "Sobre la Cía." },
@@ -29,8 +29,11 @@ const links = [
 
 <header class="site-header">
   <div class="wrap header-inner">
-    <a class="site-banner" href="/" aria-label="Argcol Capital — inicio">
-      <img src="/art/banner-argcol.png" alt="Argcol Capital" width="790" height="106" />
+    <a class="brand" href="/" aria-label="Argcol Capital — inicio">
+      <span class="brand-mark" aria-hidden="true">AC</span>
+      <span class="brand-text">
+        <span class="brand-name">Argcol <em>Capital</em></span>
+      </span>
     </a>
 
     <nav class="site-nav" aria-label="Menú principal">
@@ -39,6 +42,7 @@ const links = [
           link.external ? (
             <a href={link.href} target="_blank" rel="noopener noreferrer">
               {link.label}
+              <span aria-hidden="true"> ↗</span>
             </a>
           ) : (
             <a href={link.href} aria-current={isActive(link.href) ? "page" : undefined}>
