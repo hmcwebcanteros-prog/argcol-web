@@ -7,7 +7,7 @@
 
 ## 1. En 30 segundos
 
-- El sitio es un **family office**, **no un portal de noticias**. Menú superior: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto** (ítem **Access eliminado**).
+- El sitio es un **family office**, **no un portal de noticias**. Menú superior, **idéntico en nombres y orden a `argcol.com.ar`**: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto**. El **único ítem excluido es "Access"**, por pedido explícito. Arriba del menú se reutiliza el **banner original** de Argcol con las monedas.
 - El nombre visible es **solamente "Argcol Capital"**. Se quitaron "Argentina · Colombia", "Buenos Aires" y "Bogotá" de todo el branding (esos países explicaban el nombre internamente, no deben mostrarse).
 - Paleta actual: **rojo `#C8102E` + amarillo `#F2B705`**, fondos/grises claros. Las variables CSS siguen llamándose `--blue` / `--amber` por compatibilidad, pero ya no son azules.
 - Código: **Astro estático, 51 notas reales migradas, 88 páginas generadas**, build verificado (`npm.cmd run build` → OK).
@@ -21,7 +21,7 @@
 
 | Archivo | Cambio |
 |---|---|
-| `src/components/Header.astro` | Menú corporativo nuevo (Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto). Sin Access. Sin "Argentina · Colombia". Enlaces externos con `↗` y `target="_blank"`. Marca `/notas/` como activa. |
+| `src/components/Header.astro` | **Mismo orden que argcol.com.ar**: Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto. **Sin Access** (único ítem excluido a pedido). Incluye el banner original (`public/art/banner-argcol.png`) arriba del menú, con los enlaces en rojo. Marca `/notas/` como activa. |
 | `src/pages/index.astro` | Home de family office: hero "Gestión patrimonial con visión de largo plazo", panel "Nuestro enfoque", bloque Servicios (4 cards), block "La firma" y últimas notas al final. |
 | `src/pages/sobre.astro` | Página "Sobre la Cía." reescrita como descripción de la firma (qué hacemos, cómo trabajamos, conocimiento abierto). |
 | `src/pages/notas/index.astro` | **Nueva**: todas las notas agrupadas por año + filtros por sección, etiquetas, archivo y buscador. |
@@ -96,8 +96,8 @@ npm run deploy
 Si wrangler pregunta qué cuenta usar, elegir **`argcol-capital`**. El `name` del Worker ya es `argcol-website`, así que se actualiza el mismo sitio.
 
 ### Verificación después de publicar
+- Debe verse el **banner de monedas** y debajo el menú en rojo con 6 ítems en este orden: Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto. **No debe aparecer "Access"**.
 - La home debe mostrar **"Gestión patrimonial con visión de largo plazo"**.
-- El menú debe tener 6 ítems y **no** "Access".
 - El `<title>` debe ser **"Argcol Capital — Family Office"**.
 - No debe aparecer "Argentina", "Colombia", "Buenos Aires" ni "Bogotá" en header/footer.
 - Comando rápido:
