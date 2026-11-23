@@ -8,7 +8,7 @@
 # Mientras tanto, el contenido se publica haciendo commit/push desde GitHub.
 backend:
   name: git-gateway
-  repo: argcolcapital-web/argcol-web
+  repo: hmcwebcanteros-prog/argcol-web
   branch: main
   # PENDIENTE: reemplazar por los datos que da el tablero de DecapBridge.
   # auth_type: pkce
