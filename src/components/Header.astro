@@ -14,15 +14,23 @@ const isActive = (href: string) => {
   if (href === "/") return path === "/";
   if (href === "/notas/") return isNotes;
   return path.startsWith(href);
-};
+}
 
-// Nombres y orden del menú de Blogger. "Access" queda fuera a pedido del usuario.
+// Menú principal del family office.
+// - "Access" quedó fuera a pedido del usuario.
+// - Los enlaces a ae.argcol.com.ar se han reemplazado por navegación interna
+//   acorde con la estructura del nuevo sitio (secciones + /notas/).
 const links = [
   { href: "/", label: "Home" },
   { href: "/sobre/", label: "Sobre la Cía." },
-  { href: "https://ae.argcol.com.ar/", label: "Argcol - E", external: true },
   { href: "/notas/", label: "Notas" },
-  { href: "https://documentos.argcol.com.ar/", label: "Documentos", external: true },
+  { href: "/etiquetas/", label: "Etiquetas" },
+  { href: "/mercado/", label: "Mercado" },
+  { href: "/inversion/", label: "Inversión" },
+  { href: "/economia/", label: "Economía" },
+  { href: "/empresas/", label: "Empresas" },
+  { href: "/ratios/", label: "Ratios" },
+  { href: "/etf/", label: "ETF" },
   { href: "/contacto/", label: "Contacto" },
 ];
 ---
@@ -39,16 +47,9 @@ const links = [
     <nav class="site-nav" aria-label="Menú principal">
       {
         links.map((link) =>
-          link.external ? (
-            <a href={link.href} target="_blank" rel="noopener noreferrer">
-              {link.label}
-              <span aria-hidden="true"> ↗</span>
-            </a>
-          ) : (
-            <a href={link.href} aria-current={isActive(link.href) ? "page" : undefined}>
-              {link.label}
-            </a>
-          ),
+          <a href={link.href} aria-current={isActive(link.href) ? "page" : undefined}>
+            {link.label}
+          </a>
         )
       }
     </nav>
