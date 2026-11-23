@@ -19,26 +19,37 @@ const lastYear = years[0]?.year;
           <span class="brand-mark" aria-hidden="true">AC</span>
           <span class="brand-text">
             <span class="brand-name">Argcol <em>Capital</em></span>
-            <span class="brand-claim">Argentina · Colombia</span>
           </span>
         </a>
         <p>
-          Análisis independiente de mercados, inversión y economía para lectores de
-          Argentina y Colombia. Contenido claro, sin humo y con los datos a la vista.
+          Family office dedicado a la gestión patrimonial, la estrategia de inversión
+          y el acompañamiento de familias e inversores.
         </p>
         <p class="footer-count">
-          {posts.length} entradas{firstYear && lastYear ? ` · ${firstYear}–${lastYear}` : ""}
+          {posts.length} notas{firstYear && lastYear ? ` · ${firstYear}–${lastYear}` : ""}
         </p>
       </div>
 
       <div>
-        <h4>Secciones</h4>
+        <h4>La firma</h4>
+        <div class="footer-links">
+          <a href="/sobre/">Sobre la Cía.</a>
+          <a href="https://ae.argcol.com.ar/" target="_blank" rel="noopener noreferrer">Argcol - E ↗</a>
+          <a href="https://documentos.argcol.com.ar/" target="_blank" rel="noopener noreferrer">Documentos ↗</a>
+          <a href="/contacto/">Contacto</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Notas</h4>
         <div class="footer-links">
           {
             SECTION_KEYS.map((key) => (
               <a href={`/${key}/`}>{SECTIONS[key].label}</a>
             ))
           }
+          <a href="/notas/">Ver todas</a>
+          <a href="/etiquetas/">Etiquetas</a>
         </div>
       </div>
 
@@ -47,24 +58,14 @@ const lastYear = years[0]?.year;
         <div class="footer-links">
           {years.map((entry) => <a href={`/archivo/#${entry.year}`}>{entry.year}</a>)}
           <a href="/archivo/">Ver todo</a>
-        </div>
-      </div>
-
-      <div>
-        <h4>Sitio</h4>
-        <div class="footer-links">
-          <a href="/sobre/">Sobre Argcol</a>
-          <a href="/contacto/">Contacto</a>
-          <a href="/etiquetas/">Etiquetas</a>
           <a href="/buscar/">Buscar</a>
           <a href="/rss.xml">RSS</a>
-          <a href="/privacidad/">Privacidad</a>
         </div>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <span>© {year} {SITE.name}. Todos los derechos reservados.</span>
+      <span>© {year} {SITE.name}. Todos los derechos reservados. · <a href="/privacidad/">Privacidad</a></span>
       <span>
         {
           tags.map((tag, index) => (

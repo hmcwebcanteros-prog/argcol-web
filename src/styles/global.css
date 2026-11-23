@@ -1,14 +1,15 @@
 /* ============================================================
    Argcol Capital — sistema de diseño
-   Azul institucional #0451E4 · grises fríos · acento ámbar
-   Argentina + Colombia
+   Rojo institucional #C8102E · grises fríos · acento amarillo
+   (las variables conservan el nombre --blue por compatibilidad;
+   ahora representan la marca roja)
    ============================================================ */
 
 :root {
-  --blue: #0451e4;
-  --blue-dark: #0339a8;
-  --blue-deep: #062a63;
-  --blue-soft: rgba(4, 81, 228, 0.07);
+  --blue: #c8102e;
+  --blue-dark: #9b0c22;
+  --blue-deep: #5f0913;
+  --blue-soft: rgba(200, 16, 46, 0.07);
   --bg: #f8fafc;
   --surface: #ffffff;
   --line: #e2e8f0;
@@ -16,13 +17,13 @@
   --muted: #64748b;
   --ink: #1e293b;
   --ink-soft: #334155;
-  --amber: #f59e0b;
-  --amber-soft: rgba(245, 158, 11, 0.12);
+  --amber: #f2b705;
+  --amber-soft: rgba(242, 183, 5, 0.16);
   --radius: 14px;
   --radius-sm: 9px;
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
   --shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.28);
-  --shadow-lg: 0 26px 60px -30px rgba(6, 42, 99, 0.45);
+  --shadow-lg: 0 26px 60px -30px rgba(95, 9, 19, 0.45);
   --wrap: 1220px;
   --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -167,7 +168,7 @@ hr {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 6px 16px -8px rgba(4, 81, 228, 0.9);
+  box-shadow: 0 6px 16px -8px rgba(200, 16, 46, 0.9);
 }
 
 .brand-text {
@@ -271,7 +272,7 @@ hr {
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(1100px 460px at 88% -8%, rgba(4, 81, 228, 0.13), transparent 65%),
+    radial-gradient(1100px 460px at 88% -8%, rgba(200, 16, 46, 0.13), transparent 65%),
     linear-gradient(180deg, #ffffff 0%, #f4f7fd 100%);
 }
 
@@ -355,7 +356,7 @@ hr {
 .btn-primary {
   background: var(--blue);
   color: #fff;
-  box-shadow: 0 14px 30px -16px rgba(4, 81, 228, 0.85);
+  box-shadow: 0 14px 30px -16px rgba(200, 16, 46, 0.85);
 }
 
 .btn-primary:hover {
@@ -389,6 +390,119 @@ hr {
   content: "•";
   color: var(--amber);
   margin-right: 0.45rem;
+}
+
+/* panel corporativo del hero */
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--blue-deep), var(--blue) 78%);
+  color: #fff;
+  border-radius: calc(var(--radius) + 6px);
+  padding: clamp(1.7rem, 3vw, 2.5rem);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-panel::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--amber) 0%, var(--amber) 45%, transparent 45%);
+}
+
+.hero-panel-kicker {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.hero-panel h2 {
+  color: #fff;
+  font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  margin: 0.55rem 0 1.2rem;
+}
+
+.hero-panel ul {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.hero-panel li {
+  position: relative;
+  padding-left: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.hero-panel li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.58em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.hero-panel-link {
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1px solid var(--amber);
+  padding-bottom: 2px;
+}
+
+.hero-panel-link:hover {
+  color: var(--amber);
+}
+
+.corporate-about-lead {
+  max-width: 70ch;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.5vw, 1.12rem);
+}
+
+.notas-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 1.25rem;
+}
+
+.notas-filter a {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+}
+
+.notas-filter a:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.year-count {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
 }
 
 /* tarjeta destacada */
@@ -583,7 +697,7 @@ hr {
 .card-media {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #0b3f9e, var(--blue));
+  background: linear-gradient(135deg, #8f1220, var(--blue));
   overflow: hidden;
   flex: 0 0 auto;
 }
@@ -797,7 +911,7 @@ hr {
 
 .page-head {
   background:
-    radial-gradient(900px 340px at 82% -30%, rgba(4, 81, 228, 0.16), transparent 70%),
+    radial-gradient(900px 340px at 82% -30%, rgba(200, 16, 46, 0.16), transparent 70%),
     linear-gradient(180deg, #fff, #f5f8fd);
   border-bottom: 1px solid var(--line);
   padding: clamp(2.4rem, 5vw, 3.6rem) 0;
@@ -1226,7 +1340,7 @@ hr {
 .field textarea:focus,
 .field select:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(4, 81, 228, 0.14);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.14);
 }
 
 .field textarea {
@@ -1342,7 +1456,7 @@ hr {
 
 .search-box input:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(4, 81, 228, 0.14);
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.14);
 }
 
 .search-box button {

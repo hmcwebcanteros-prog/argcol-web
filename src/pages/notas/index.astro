@@ -1,0 +1,53 @@
+---
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { SECTIONS, SECTION_KEYS } from "../../lib/site";
+import { allPosts, groupByYear } from "../../lib/posts";
+
+const posts = await allPosts();
+const years = groupByYear(posts);
+---
+
+<Base
+  title="Notas"
+  description="Análisis, informes y material de lectura de Argcol Capital sobre mercados, inversión y economía."
+>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Publicaciones</span>
+      <h1>Notas</h1>
+      <p class="lead">
+        Análisis y material de lectura para inversores de largo plazo. Contenido
+        informativo, sin recomendaciones personalizadas.
+      </p>
+      <p class="count-note">{posts.length} notas · {years.length} años</p>
+      <nav class="notas-filter" aria-label="Secciones de notas">
+        {SECTION_KEYS.map((key) => (
+          <a href={`/${key}/`}>{SECTIONS[key].label}</a>
+        ))}
+        <a href="/etiquetas/">Etiquetas</a>
+        <a href="/archivo/">Archivo</a>
+        <a href="/buscar/">Buscar</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="wrap block narrow">
+    {years.map((group) => (
+      <section class="year-group" id={group.year}>
+        <h2>
+          {group.year}{" "}
+          <span class="year-count">{group.posts.length} notas</span>
+        </h2>
+        <div class="row-list">
+          {group.posts.map((post) => (
+            <Card post={post} variant="row" />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <Newsletter />
+</Base>

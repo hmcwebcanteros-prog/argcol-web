@@ -1,13 +1,13 @@
 export const SITE = {
   name: "Argcol Capital",
   short: "Argcol",
-  title: "Argcol Capital — Inversión y Finanzas",
+  title: "Argcol Capital — Family Office",
   description:
-    "Análisis de mercados, ratios de inversión, oportunidades y contenido financiero de Argcol Capital.",
+    "Family office dedicado a la gestión patrimonial, la estrategia de inversión y el acompañamiento de familias e inversores.",
   url: "https://argcol.com.ar",
-  author: "Equipo Argcol Capital",
+  author: "Argcol Capital",
   authorPhoto: "/art/autor/argcol-foto.webp",
-  location: "Argentina",
+  location: "",
   locale: "es_AR",
   // Google Apps Script para formularios: newsletter, contacto y lista privada.
   // El script se despliega como aplicación web y se obtiene la URL /exec.

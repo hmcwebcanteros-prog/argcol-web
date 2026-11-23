@@ -1,13 +1,29 @@
 ---
-import { SECTIONS, SECTION_KEYS } from "../lib/site";
+import { SECTION_KEYS } from "../lib/site";
 
 const path = Astro.url.pathname;
-const active = (href: string) => path === href || path.startsWith(href);
 
-const links = SECTION_KEYS.map((key) => ({
-  href: `/${key}/`,
-  label: SECTIONS[key].label,
-}));
+const isNotes =
+  path.startsWith("/notas") ||
+  path.startsWith("/archivo") ||
+  path.startsWith("/etiqueta") ||
+  path.startsWith("/buscar") ||
+  SECTION_KEYS.some((key) => path.startsWith(`/${key}/`));
+
+const isActive = (href: string) => {
+  if (href === "/") return path === "/";
+  if (href === "/notas/") return isNotes;
+  return path.startsWith(href);
+};
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/sobre/", label: "Sobre la Cía." },
+  { href: "https://ae.argcol.com.ar/", label: "Argcol - E", external: true },
+  { href: "/notas/", label: "Notas" },
+  { href: "https://documentos.argcol.com.ar/", label: "Documentos", external: true },
+  { href: "/contacto/", label: "Contacto" },
+];
 ---
 
 <header class="site-header">
@@ -16,23 +32,24 @@ const links = SECTION_KEYS.map((key) => ({
       <span class="brand-mark" aria-hidden="true">AC</span>
       <span class="brand-text">
         <span class="brand-name">Argcol <em>Capital</em></span>
-        <span class="brand-claim">Argentina · Colombia</span>
       </span>
     </a>
 
-    <nav class="site-nav" aria-label="Secciones del sitio">
+    <nav class="site-nav" aria-label="Menú principal">
       {
-        links.map((link) => (
-          <a href={link.href} aria-current={active(link.href) ? "page" : undefined}>
-            {link.label}
-          </a>
-        ))
+        links.map((link) =>
+          link.external ? (
+            <a href={link.href} target="_blank" rel="noopener noreferrer">
+              {link.label}
+              <span aria-hidden="true"> ↗</span>
+            </a>
+          ) : (
+            <a href={link.href} aria-current={isActive(link.href) ? "page" : undefined}>
+              {link.label}
+            </a>
+          ),
+        )
       }
-      <span class="nav-extra">
-        <a href="/etiquetas/" aria-current={active("/etiquetas/") ? "page" : undefined}>Etiquetas</a>
-        <a href="/archivo/" aria-current={active("/archivo/") ? "page" : undefined}>Archivo</a>
-        <a href="/buscar/" aria-current={active("/buscar/") ? "page" : undefined}>Buscar</a>
-      </span>
     </nav>
   </div>
 </header>

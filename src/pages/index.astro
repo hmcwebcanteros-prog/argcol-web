@@ -2,67 +2,112 @@
 import Base from "../layouts/Base.astro";
 import Card from "../components/Card.astro";
 import Newsletter from "../components/Newsletter.astro";
-import { SECTIONS, SECTION_KEYS, SITE } from "../lib/site";
-import { allPosts, formatDate, sectionPosts } from "../lib/posts";
+import { SITE } from "../lib/site";
+import { allPosts } from "../lib/posts";
 
 const posts = await allPosts();
-const featured = posts[0];
-const latest = posts.slice(1, 7);
-
-const sections = await Promise.all(
-  SECTION_KEYS.map(async (key) => ({
-    key,
-    meta: SECTIONS[key],
-    posts: (await sectionPosts(key)).slice(0, 3),
-    total: (await sectionPosts(key)).length,
-  })),
-);
-
-const today = formatDate(new Date());
-const todayLabel = today.charAt(0).toUpperCase() + today.slice(1);
+const latest = posts.slice(0, 3);
 ---
 
-<Base title="Argcol Capital — Mercados, inversión y economía" description={SITE.description}>
-  <div class="today-bar">
-    <div class="wrap">
-      <span><strong>{todayLabel}</strong> · Buenos Aires · Bogotá</span>
-      <span class="today-tag">Análisis independiente</span>
-    </div>
-  </div>
-
+<Base title="Argcol Capital — Family Office" description={SITE.description}>
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <span class="kicker">Argentina + Colombia</span>
-        <h1>Claridad para <em>decidir</em> mejor.</h1>
+        <span class="kicker">Family Office</span>
+        <h1>Gestión patrimonial con <em>visión de largo plazo</em>.</h1>
         <p class="hero-lead">
-          Mercados, inversión, economía y empresas explicados sin humo. Análisis con
-          datos, criterio de largo plazo y una mirada regional de Argentina y Colombia.
+          Argcol Capital acompaña a familias e inversores en la organización,
+          protección y crecimiento de su patrimonio, con independencia de criterio
+          y una mirada de largo plazo.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#ultimas">Leer las últimas entradas</a>
-          <a class="btn btn-ghost" href="/sobre/">Quiénes somos</a>
+          <a class="btn btn-primary" href="/sobre/">Conocer la firma</a>
+          <a class="btn btn-ghost" href="/contacto/">Hablemos</a>
         </div>
         <p class="hero-note">
-          <span>{posts.length} entradas publicadas</span>
-          <span>Sin publicidad</span>
-          <span>Actualización continua</span>
+          <span>Gestión patrimonial</span>
+          <span>Estrategia de inversión</span>
+          <span>Planificación</span>
         </p>
       </div>
 
-      {featured && <Card post={featured} variant="feature" index={0} />}
+      <aside class="hero-panel" aria-label="Nuestro enfoque">
+        <span class="hero-panel-kicker">Nuestro enfoque</span>
+        <h2>Un socio para el largo plazo</h2>
+        <ul>
+          <li>Independencia en las decisiones.</li>
+          <li>Carteras diversificadas y disciplina de inversión.</li>
+          <li>Acompañamiento cercano y reportes claros.</li>
+        </ul>
+        <a class="hero-panel-link" href="/sobre/">Conocer cómo trabajamos →</a>
+      </aside>
     </div>
   </section>
 
   <div class="wrap">
+    <section class="block">
+      <div class="block-head">
+        <div>
+          <span class="kicker">Qué hacemos</span>
+          <h2>Servicios</h2>
+        </div>
+      </div>
+      <div class="section-cards">
+        <article class="section-card">
+          <h3>Gestión patrimonial</h3>
+          <p>
+            Diseñamos y supervisamos una estrategia integral para el patrimonio
+            familiar, alineada a sus objetivos, su horizonte y su tolerancia al riesgo.
+          </p>
+        </article>
+        <article class="section-card">
+          <h3>Estrategia de inversión</h3>
+          <p>
+            Construimos carteras diversificadas y las revisamos con disciplina, con
+            foco en preservar capital y generar retorno en el largo plazo.
+          </p>
+        </article>
+        <article class="section-card">
+          <h3>Planificación</h3>
+          <p>
+            Ordenamos liquidez, riesgos y prioridades para que las decisiones
+            financieras acompañen el proyecto de vida de cada familia.
+          </p>
+        </article>
+        <article class="section-card">
+          <h3>Acompañamiento</h3>
+          <p>
+            Reportes claros y reuniones periódicas para decidir con información,
+            sin ruido y con una mirada independiente.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="block corporate-about">
+      <div class="block-head">
+        <div>
+          <span class="kicker">La firma</span>
+          <h2>Argcol Capital</h2>
+        </div>
+        <a class="more-link" href="/sobre/">Sobre la Cía. →</a>
+      </div>
+      <p class="corporate-about-lead">
+        Somos una firma de family office dedicada a la gestión integral del
+        patrimonio. Trabajamos con independencia, confidencialidad y una disciplina
+        de inversión pensada para proteger el capital y hacerlo crecer a lo largo de
+        las generaciones.
+      </p>
+    </section>
+
     {latest.length > 0 && (
-      <section class="block" id="ultimas">
+      <section class="block" id="notas">
         <div class="block-head">
           <div>
-            <span class="kicker">Recién publicado</span>
-            <h2>Últimas entradas</h2>
+            <span class="kicker">Notas</span>
+            <h2>Últimas publicaciones</h2>
           </div>
-          <a class="more-link" href="/archivo/">Ver el archivo completo →</a>
+          <a class="more-link" href="/notas/">Ver todas las notas →</a>
         </div>
         <div class="grid-3">
           {latest.map((post, index) => (
@@ -71,53 +116,6 @@ const todayLabel = today.charAt(0).toUpperCase() + today.slice(1);
         </div>
       </section>
     )}
-
-    <section class="block">
-      <div class="block-head">
-        <div>
-          <span class="kicker">Explorar</span>
-          <h2>Secciones</h2>
-        </div>
-      </div>
-      <div class="section-cards">
-        {sections.map((section) => (
-          <a class="section-card" href={`/${section.key}/`}>
-            <h3>{section.meta.label}</h3>
-            <p>{section.meta.lead}</p>
-            <span class="count">{section.total} textos</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    {sections
-      .filter((section) => section.posts.length > 0)
-      .map((section) => (
-        <section class="block">
-          <div class="block-head">
-            <div>
-              <span class="kicker">{section.meta.kicker}</span>
-              <h2>{section.meta.label}</h2>
-            </div>
-            <a class="more-link" href={`/${section.key}/`}>
-              Ver todo {section.meta.label} →
-            </a>
-          </div>
-          {section.posts.length > 1 ? (
-            <div class="grid-3">
-              {section.posts.map((post) => (
-                <Card post={post} />
-              ))}
-            </div>
-          ) : (
-            <div class="row-list">
-              {section.posts.map((post) => (
-                <Card post={post} variant="row" />
-              ))}
-            </div>
-          )}
-        </section>
-      ))}
   </div>
 
   <Newsletter />
