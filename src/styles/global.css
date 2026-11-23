@@ -1,15 +1,13 @@
 /* ============================================================
    Argcol Capital — sistema de diseño
-   Rojo institucional #C8102E · grises fríos · acento amarillo
-   (las variables conservan el nombre --blue por compatibilidad;
-   ahora representan la marca roja)
+   Azul institucional #0451E4 · grises fríos · acento ámbar
    ============================================================ */
 
 :root {
-  --blue: #c8102e;
-  --blue-dark: #9b0c22;
-  --blue-deep: #5f0913;
-  --blue-soft: rgba(200, 16, 46, 0.07);
+  --blue: #0451e4;
+  --blue-dark: #0339a8;
+  --blue-deep: #062a63;
+  --blue-soft: rgba(4, 81, 228, 0.07);
   --bg: #f8fafc;
   --surface: #ffffff;
   --line: #e2e8f0;
@@ -17,13 +15,13 @@
   --muted: #64748b;
   --ink: #1e293b;
   --ink-soft: #334155;
-  --amber: #f2b705;
-  --amber-soft: rgba(242, 183, 5, 0.16);
+  --amber: #f59e0b;
+  --amber-soft: rgba(245, 158, 11, 0.12);
   --radius: 14px;
   --radius-sm: 9px;
   --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
   --shadow: 0 12px 30px -18px rgba(15, 23, 42, 0.28);
-  --shadow-lg: 0 26px 60px -30px rgba(95, 9, 19, 0.45);
+  --shadow-lg: 0 26px 60px -30px rgba(6, 42, 99, 0.45);
   --wrap: 1220px;
   --serif: "Playfair Display", "Iowan Old Style", Georgia, serif;
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -168,7 +166,7 @@ hr {
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.02em;
-  box-shadow: 0 6px 16px -8px rgba(200, 16, 46, 0.9);
+  box-shadow: 0 6px 16px -8px rgba(4, 81, 228, 0.9);
 }
 
 .brand-text {
@@ -285,7 +283,7 @@ hr {
   right: 0;
   width: 45%;
   height: 100%;
-  background: radial-gradient(900px 520px at 100% 0%, rgba(200, 16, 46, 0.055), transparent 70%);
+  background: radial-gradient(900px 520px at 100% 0%, rgba(4, 81, 228, 0.055), transparent 70%);
   pointer-events: none;
 }
 
@@ -393,7 +391,7 @@ hr {
 .btn-primary {
   background: var(--blue);
   color: #fff;
-  box-shadow: 0 14px 30px -16px rgba(200, 16, 46, 0.85);
+  box-shadow: 0 14px 30px -16px rgba(4, 81, 228, 0.85);
 }
 
 .btn-primary:hover {
@@ -786,7 +784,7 @@ hr {
 .card-media {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, #8f1220, var(--blue));
+  background: linear-gradient(135deg, #0b3f9e, var(--blue));
   overflow: hidden;
   flex: 0 0 auto;
 }
@@ -1000,7 +998,7 @@ hr {
 
 .page-head {
   background:
-    radial-gradient(900px 340px at 82% -30%, rgba(200, 16, 46, 0.16), transparent 70%),
+    radial-gradient(900px 340px at 82% -30%, rgba(4, 81, 228, 0.16), transparent 70%),
     linear-gradient(180deg, #fff, #f5f8fd);
   border-bottom: 1px solid var(--line);
   padding: clamp(2.4rem, 5vw, 3.6rem) 0;
@@ -1429,7 +1427,7 @@ hr {
 .field textarea:focus,
 .field select:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.14);
+  box-shadow: 0 0 0 3px rgba(4, 81, 228, 0.14);
 }
 
 .field textarea {
@@ -1545,7 +1543,7 @@ hr {
 
 .search-box input:focus {
   border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.14);
+  box-shadow: 0 0 0 3px rgba(4, 81, 228, 0.14);
 }
 
 .search-box button {

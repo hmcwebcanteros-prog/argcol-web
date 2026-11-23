@@ -7,10 +7,10 @@
 
 ## 1. En 30 segundos
 
-- El sitio es un **family office**, **no un portal de noticias**. Menú superior, **idéntico en nombres y orden a `argcol.com.ar`**: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto**. El **único ítem excluido es "Access"**, por pedido explícito. Aspecto: header sticky con marca AC, paleta rojo/amarillo, **sin banner de monedas**.
+- El sitio es un **family office**, **no un portal de noticias**. Menú superior, **idéntico en nombres y orden a `argcol.com.ar`**: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto**. El **único ítem excluido es "Access"**, por pedido explícito. Aspecto: header sticky con marca AC, **paleta azul/ámbar**, sin banner de monedas.
 - La **home es editorial y sobria** (mucho espacio en blanco, tipografía serif, sin tarjetas de notas ni newsletter) para no parecer un blog barato.
 - El nombre visible es **solamente "Argcol Capital"**. Se quitaron "Argentina · Colombia", "Buenos Aires" y "Bogotá" de todo el branding (esos países explicaban el nombre internamente, no deben mostrarse).
-- Paleta actual: **rojo `#C8102E` + amarillo `#F2B705`**, fondos/grises claros. Las variables CSS siguen llamándose `--blue` / `--amber` por compatibilidad, pero ya no son azules.
+- Paleta actual: **azul institucional `#0451E4` + ámbar `#F59E0B`**, fondos/grises claros (regla 60-30-10). El usuario probó rojo/amarillo pero pidió volver al tono azul: **no cambiar la paleta**.
 - Código: **Astro estático, 51 notas reales migradas, 88 páginas generadas**, build verificado (`npm.cmd run build` → OK).
 - GitHub: **`https://github.com/hmcwebcanteros-prog/argcol-web`** (público, rama `main`). Último commit **`6c62ed8` pusheado correctamente**.
 - Cloudflare: account **`argcol-capital`**, Worker **`argcol-website`**, URL **`https://argcol-website.argcol-capital.workers.dev/`**.
@@ -22,16 +22,16 @@
 
 | Archivo | Cambio |
 |---|---|
-| `src/components/Header.astro` | Aspecto del rediseño (marca AC + menú en píldoras, paleta rojo/amarillo) con **los nombres y el orden del menú de Blogger**: Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto. **Sin Access** (único ítem excluido a pedido). Marca `/notas/` como activa. |
+| `src/components/Header.astro` | Aspecto del rediseño (marca AC + menú en píldoras, **paleta azul/ámbar**) con **los nombres y el orden del menú de Blogger**: Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto. **Sin Access** (único ítem excluido a pedido). Marca `/notas/` como activa. |
 | `src/pages/index.astro` | Home **editorial y elegante**, sin aspecto de blog: hero sobrio ("El patrimonio, con visión de largo plazo"), declaración "Nuestra mirada", enfoque en 3 filas numeradas y cierre de contacto. **Sin tarjetas de notas, sin panel lateral y sin newsletter en la home.** Las notas viven en `/notas/` y en el footer. |
 | `src/pages/sobre.astro` | Página "Sobre la Cía." reescrita como descripción de la firma (qué hacemos, cómo trabajamos, conocimiento abierto). |
 | `src/pages/notas/index.astro` | **Nueva**: todas las notas agrupadas por año + filtros por sección, etiquetas, archivo y buscador. |
 | `src/pages/contacto.astro` | Texto y `select` de asunto adaptados a family office. |
 | `src/components/Footer.astro` | Branding sin países; columnas "La firma / Notas / Archivo". |
 | `src/lib/site.ts` | `title: "Argcol Capital — Family Office"`, descripción de family office, `location: ""`, `author: "Argcol Capital"`. |
-| `src/layouts/Base.astro` | `theme-color` → `#C8102E`. |
-| `src/styles/global.css` | Paleta rojo/amarillo, panel del hero, `.notas-filter`, `.year-count`, `.corporate-about-lead`. Responsive conservado. |
-| `public/favicon.svg`, `public/og-default.png` | Rediseñados con rojo/amarillo y texto "Family office · Gestión patrimonial". |
+| `src/layouts/Base.astro` | `theme-color` → `#0451E4` (vuelta al azul). |
+| `src/styles/global.css` | Paleta azul/ámbar, home editorial (`.statement`, `.approach`, `.closing`, `.text-link`), `.notas-filter`, `.year-count`. Responsive conservado. |
+| `public/favicon.svg`, `public/og-default.png` | Azul/ámbar (#0451E4 / #F59E0B) con texto "Family office · Gestión patrimonial". |
 | `wrangler.jsonc`, `package.json` | **Nuevos**: config de deploy (`name: argcol-website`, `assets: ./dist`) y script `npm run deploy`. |
 
 ---
