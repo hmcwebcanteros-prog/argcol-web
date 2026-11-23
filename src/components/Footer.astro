@@ -1,0 +1,80 @@
+---
+import { SECTIONS, SECTION_KEYS, SITE } from "../lib/site";
+import { allPosts, groupByYear } from "../lib/posts";
+import { buildTagIndex, tagPath } from "../lib/tags";
+
+const year = new Date().getFullYear();
+const posts = await allPosts();
+const tags = buildTagIndex(posts).slice(0, 8);
+const years = groupByYear(posts).slice(0, 5);
+const firstYear = years[years.length - 1]?.year;
+const lastYear = years[0]?.year;
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <span class="brand-mark" aria-hidden="true">AC</span>
+          <span class="brand-text">
+            <span class="brand-name">Argcol <em>Capital</em></span>
+            <span class="brand-claim">Argentina · Colombia</span>
+          </span>
+        </a>
+        <p>
+          Análisis independiente de mercados, inversión y economía para lectores de
+          Argentina y Colombia. Contenido claro, sin humo y con los datos a la vista.
+        </p>
+        <p class="footer-count">
+          {posts.length} entradas{firstYear && lastYear ? ` · ${firstYear}–${lastYear}` : ""}
+        </p>
+      </div>
+
+      <div>
+        <h4>Secciones</h4>
+        <div class="footer-links">
+          {
+            SECTION_KEYS.map((key) => (
+              <a href={`/${key}/`}>{SECTIONS[key].label}</a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div>
+        <h4>Archivo</h4>
+        <div class="footer-links">
+          {years.map((entry) => <a href={`/archivo/#${entry.year}`}>{entry.year}</a>)}
+          <a href="/archivo/">Ver todo</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Sitio</h4>
+        <div class="footer-links">
+          <a href="/sobre/">Sobre Argcol</a>
+          <a href="/contacto/">Contacto</a>
+          <a href="/etiquetas/">Etiquetas</a>
+          <a href="/buscar/">Buscar</a>
+          <a href="/rss.xml">RSS</a>
+          <a href="/privacidad/">Privacidad</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© {year} {SITE.name}. Todos los derechos reservados.</span>
+      <span>
+        {
+          tags.map((tag, index) => (
+            <>
+              {index > 0 && " · "}
+              <a href={tagPath(tag.slug)}>{tag.name}</a>
+            </>
+          ))
+        }
+      </span>
+    </div>
+  </div>
+</footer>

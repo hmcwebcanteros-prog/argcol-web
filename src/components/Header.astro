@@ -1,0 +1,38 @@
+---
+import { SECTIONS, SECTION_KEYS } from "../lib/site";
+
+const path = Astro.url.pathname;
+const active = (href: string) => path === href || path.startsWith(href);
+
+const links = SECTION_KEYS.map((key) => ({
+  href: `/${key}/`,
+  label: SECTIONS[key].label,
+}));
+---
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/" aria-label="Argcol Capital — inicio">
+      <span class="brand-mark" aria-hidden="true">AC</span>
+      <span class="brand-text">
+        <span class="brand-name">Argcol <em>Capital</em></span>
+        <span class="brand-claim">Argentina · Colombia</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={active(link.href) ? "page" : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+      <span class="nav-extra">
+        <a href="/etiquetas/" aria-current={active("/etiquetas/") ? "page" : undefined}>Etiquetas</a>
+        <a href="/archivo/" aria-current={active("/archivo/") ? "page" : undefined}>Archivo</a>
+        <a href="/buscar/" aria-current={active("/buscar/") ? "page" : undefined}>Buscar</a>
+      </span>
+    </nav>
+  </div>
+</header>

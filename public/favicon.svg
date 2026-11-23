@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Argcol Capital">
+  <rect width="64" height="64" rx="14" fill="#0451E4"/>
+  <rect x="14" y="47" width="36" height="4" rx="2" fill="#F59E0B"/>
+  <text x="32" y="40" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="27" font-weight="700" fill="#FFFFFF">AC</text>
+</svg>

@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+import { allPosts } from "../lib/posts";
+import { buildTagIndex, tagPath } from "../lib/tags";
+
+const posts = await allPosts();
+const tags = buildTagIndex(posts);
+---
+
+<Base title="Etiquetas" description="Todos los temas publicados en Argcol Capital.">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Índice temático</span>
+      <h1>Etiquetas</h1>
+      <p class="lead">Los temas que recorren el sitio. Elegí una etiqueta para ver todas las entradas relacionadas.</p>
+      <p class="count-note">{tags.length} etiquetas · {posts.length} entradas</p>
+    </div>
+  </header>
+
+  <div class="wrap block">
+    <div class="tag-cloud">
+      {tags.map((tag) => (
+        <a class="tag-pill" href={tagPath(tag.slug)}>
+          {tag.name} <span class="n">{tag.count}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

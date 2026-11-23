@@ -1,0 +1,144 @@
+---
+import Base from "../../../../layouts/Base.astro";
+import Card from "../../../../components/Card.astro";
+import Newsletter from "../../../../components/Newsletter.astro";
+import { getEntry, render } from "astro:content";
+import { SECTIONS, SITE, type SectionKey } from "../../../../lib/site";
+import {
+  allPosts,
+  coverImage,
+  excerpt,
+  formatDate,
+  neighbours,
+  postPath,
+  readingTime,
+  relatedPosts,
+  sectionPosts,
+  yearMonth,
+} from "../../../../lib/posts";
+import { tagPath, slugify } from "../../../../lib/tags";
+
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return posts.map((post) => {
+    const { year, month } = yearMonth(post.data.date);
+    return {
+      params: {
+        section: post.data.section,
+        year,
+        month,
+        slug: post.data.slug,
+      },
+      props: { id: post.id },
+    };
+  });
+}
+
+const post = await getEntry("posts", Astro.props.id);
+if (!post) {
+  throw new Error("Entrada no encontrada");
+}
+
+const { Content } = await render(post);
+const section = post.data.section as SectionKey;
+const meta = SECTIONS[section];
+const image = coverImage(post);
+const others = await sectionPosts(section);
+const index = others.findIndex((item) => item.id === post.id);
+const { prev, next } = neighbours(others, index);
+const related = relatedPosts(post, await allPosts(), 3);
+const minutes = readingTime(post);
+const description = excerpt(post, 180);
+const published = post.data.date;
+---
+
+<Base
+  title={post.data.title}
+  description={description}
+  image={image}
+  type="article"
+  published={published}
+  section={meta.label}
+>
+  <div class="wrap article-shell">
+    <article class="article">
+      <header class="article-head">
+        <span class="kicker">{meta.label}</span>
+        <h1 class="article-title">{post.data.title}</h1>
+        {post.data.description && <p class="article-dek">{post.data.description}</p>}
+        <div class="article-meta">
+          <span><strong>Argcol Capital</strong></span>
+          <span class="dot" aria-hidden="true">·</span>
+          <time datetime={published.toISOString()}>{formatDate(published)}</time>
+          <span class="dot" aria-hidden="true">·</span>
+          <span>{minutes} min de lectura</span>
+          <span class="dot" aria-hidden="true">·</span>
+          <a href={`/${section}/`}>{meta.label}</a>
+        </div>
+      </header>
+
+      {post.data.hero && (
+        <figure class="article-cover">
+          <img src={post.data.hero} alt={post.data.heroAlt || post.data.title} width="1200" height="675" loading="eager" />
+        </figure>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {post.data.tags.length > 0 && (
+        <div class="article-tags">
+          {post.data.tags.map((tag) => (
+            <a class="chip" href={tagPath(slugify(tag))}>{tag}</a>
+          ))}
+        </div>
+      )}
+
+      {post.data.oldUrl && (
+        <p class="article-source">
+          Publicado originalmente en{" "}
+          <a href={post.data.oldUrl} rel="noopener">notas.argcol.com.ar</a>.
+        </p>
+      )}
+    </article>
+
+    <nav class="article-nav" aria-label="Otras entradas de la sección">
+      {prev ? (
+        <a href={postPath(prev)}>
+          <span class="dir">← Más reciente</span>
+          <span class="t">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+      {next ? (
+        <a class="next" href={postPath(next)}>
+          <span class="dir">Más antiguo →</span>
+          <span class="t">{next.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+    </nav>
+  </div>
+
+  {related.length > 0 && (
+    <div class="wrap block">
+      <div class="block-head">
+        <div>
+          <span class="kicker">Seguir leyendo</span>
+          <h2>También te puede interesar</h2>
+        </div>
+        <a class="more-link" href={`/${section}/`}>Ver todo {meta.label} →</a>
+      </div>
+      <div class="grid-3">
+        {related.map((item) => (
+          <Card post={item} showSection />
+        ))}
+      </div>
+    </div>
+  )}
+
+  <Newsletter />
+</Base>

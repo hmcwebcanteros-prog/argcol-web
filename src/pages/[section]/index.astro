@@ -1,0 +1,62 @@
+---
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { SECTIONS, SECTION_KEYS, SITE, type SectionKey } from "../../lib/site";
+import { paginate, sectionPosts } from "../../lib/posts";
+
+export function getStaticPaths() {
+  return SECTION_KEYS.map((section) => ({
+    params: { section },
+  }));
+}
+
+const section = Astro.params.section as SectionKey;
+const meta = SECTIONS[section];
+const all = await sectionPosts(section);
+const page = paginate(all, 1);
+const href = (n: number) => (n === 1 ? `/${section}/` : `/${section}/page/${n}/`);
+---
+
+<Base
+  title={`${meta.label} — ${meta.tagline}`}
+  description={meta.description}
+  section={meta.label}
+>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">{meta.kicker}</span>
+      <h1>{meta.label}</h1>
+      <p class="lead">{meta.lead}</p>
+      <p class="count-note">{page.totalItems} textos · página {page.page} de {page.totalPages}</p>
+    </div>
+  </header>
+
+  <div class="wrap block">
+    {page.items.length ? (
+      <div class="grid-3">
+        {page.items.map((post, index) => (
+          <Card post={post} index={index} />
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">Todavía no hay entradas en esta sección.</p>
+    )}
+
+    {page.totalPages > 1 && (
+      <nav class="pagination" aria-label="Paginación">
+        {page.hasPrev && <a href={href(page.page - 1)} rel="prev">← Anterior</a>}
+        {Array.from({ length: page.totalPages }, (_, i) => i + 1).map((n) =>
+          n === page.page ? (
+            <span class="is-current" aria-current="page">{n}</span>
+          ) : (
+            <a href={href(n)}>{n}</a>
+          ),
+        )}
+        {page.hasNext && <a href={href(page.page + 1)} rel="next">Siguiente →</a>}
+      </nav>
+    )}
+  </div>
+
+  <Newsletter />
+</Base>

@@ -1,0 +1,34 @@
+---
+import Base from "../layouts/Base.astro";
+import Card from "../components/Card.astro";
+import { allPosts, groupByYear } from "../lib/posts";
+
+const posts = await allPosts();
+const years = groupByYear(posts);
+---
+
+<Base title="Archivo" description="Todas las entradas de Argcol Capital, ordenadas por año.">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Hemeroteca</span>
+      <h1>Archivo</h1>
+      <p class="lead">Todo lo publicado, de lo más reciente a lo más antiguo.</p>
+      <p class="count-note">{posts.length} entradas · {years.length} años</p>
+    </div>
+  </header>
+
+  <div class="wrap block narrow">
+    {years.map((group) => (
+      <section class="year-group" id={group.year}>
+        <h2>{group.year} <span style="font-family: var(--sans); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em;">
+          {group.posts.length} entradas
+        </span></h2>
+        <div class="row-list">
+          {group.posts.map((post) => (
+            <Card post={post} variant="row" />
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

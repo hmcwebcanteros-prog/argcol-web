@@ -1,0 +1,323 @@
+# Panel de publicación de argcol.com.ar (Decap CMS).
+# Los textos viven en src/content/posts/{seccion}/*.md.
+#
+# AUTENTICACIÓN
+# Se usa DecapBridge (igual que en hmcanteros.com.ar) para entrar con Google
+# sin ver GitHub. Para activarlo hay que registrar el sitio en
+# https://decapbridge.com y reemplazar los valores marcados como PENDIENTE.
+# Mientras tanto, el contenido se publica haciendo commit/push desde GitHub.
+backend:
+  name: git-gateway
+  repo: argcolcapital-web/argcol-web
+  branch: main
+  # PENDIENTE: reemplazar por los datos que da el tablero de DecapBridge.
+  # auth_type: pkce
+  # base_url: https://auth.decapbridge.com
+  # auth_endpoint: /sites/PENDIENTE/pkce
+  # auth_token_endpoint: /sites/PENDIENTE/token
+  # gateway_url: https://gateway.decapbridge.com
+  commit_messages:
+    create: Create {{collection}} “{{slug}}” via Decap CMS
+    update: Update {{collection}} “{{slug}}” via Decap CMS
+    delete: Delete {{collection}} “{{slug}}” via Decap CMS
+    uploadMedia: Upload “{{path}}” via Decap CMS
+    deleteMedia: Delete “{{path}}” via Decap CMS
+
+local_backend: true
+
+site_url: "https://argcol.com.ar"
+locale: "es"
+
+media_folder: "public/media/del-cms"
+public_folder: "/media/del-cms"
+
+slug:
+  encoding: "ascii"
+  clean_accents: true
+
+publish_mode: "simple"
+
+collections:
+  - name: "mercado"
+    label: "Mercado"
+    folder: "src/content/posts/mercado"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields: &post_fields
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "mercado" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - label: "Dirección corta (slug)"
+        name: "slug"
+        widget: "string"
+        required: true
+        hint: "Minúsculas y guiones. Ej: cierre-de-mercados-15-noviembre-2026"
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "cierre-diario", "resumen-semanal", "analisis", "informe"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "inversion"
+    label: "Inversión"
+    folder: "src/content/posts/inversion"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields:
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "inversion" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - { label: "Dirección corta (slug)", name: "slug", widget: "string", required: true }
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "estrategia", "cartera", "analisis", "informe"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "economia"
+    label: "Economía"
+    folder: "src/content/posts/economia"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields:
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "economia" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - { label: "Dirección corta (slug)", name: "slug", widget: "string", required: true }
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "macro", "indicadores", "analisis", "informe"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "empresas"
+    label: "Empresas"
+    folder: "src/content/posts/empresas"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields:
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "empresas" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - { label: "Dirección corta (slug)", name: "slug", widget: "string", required: true }
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "perfil", "analisis", "informe"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "ratios"
+    label: "Ratios"
+    folder: "src/content/posts/ratios"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields:
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "ratios" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - { label: "Dirección corta (slug)", name: "slug", widget: "string", required: true }
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "indicador", "analisis", "guia"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "etf"
+    label: "ETF"
+    folder: "src/content/posts/etf"
+    create: true
+    editor: { preview: true }
+    summary: "{{title}}"
+    sortable_fields:
+      - title
+      - field: date
+        label: "Fecha de publicación"
+        default_sort: desc
+    slug: "{{year}}-{{month}}-{{day}}-{{fields.slug}}"
+    fields:
+      - { label: "Sección (automática)", name: "section", widget: "hidden", default: "etf" }
+      - { label: "Título", name: "title", widget: "string", required: true }
+      - label: "Fecha y hora de publicación"
+        name: "date"
+        widget: "datetime"
+        required: true
+        default: "{{now}}"
+        format: "YYYY-MM-DDTHH:mm:ss.SSSZ"
+      - { label: "Dirección corta (slug)", name: "slug", widget: "string", required: true }
+      - label: "Tipo de texto"
+        name: "type"
+        widget: "select"
+        default: "articulo"
+        options: ["articulo", "fondo", "comparativa", "analisis", "guia"]
+      - { label: "Descripción corta", name: "description", widget: "text", required: false }
+      - label: "Etiquetas"
+        name: "tags"
+        widget: "relation"
+        required: false
+        collection: "etiquetas"
+        search_fields: ["name"]
+        display_fields: ["name"]
+        value_field: "name"
+        multiple: true
+        create: false
+      - { label: "Texto de la entrada", name: "body", widget: "markdown", required: true }
+      - { label: "Foto destacada", name: "hero", widget: "image", required: false, allow_multiple: false }
+      - { label: "Texto alternativo de la foto", name: "heroAlt", widget: "string", required: false }
+      - { label: "Entrada original", name: "oldUrl", widget: "hidden", default: "" }
+      - { label: "Borrador", name: "draft", widget: "boolean", default: false }
+
+  - name: "etiquetas"
+    label: "Etiquetas"
+    label_singular: "Etiqueta"
+    folder: "src/content/etiquetas"
+    create: true
+    delete: false
+    identifier_field: "name"
+    summary: "{{name}}"
+    sortable_fields: ["name"]
+    description: >-
+      Lista maestra de etiquetas. Se crean una sola vez acá y después se eligen
+      en cada entrada. Antes de crear una, revisá si ya existe una igual.
+    slug: "{{fields.name}}"
+    fields:
+      - { label: "Nombre de la etiqueta", name: "name", widget: "string", required: true }

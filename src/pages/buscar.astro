@@ -1,0 +1,98 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Buscar" description="Buscá en todas las entradas de Argcol Capital.">
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Buscador</span>
+      <h1>Buscar en Argcol</h1>
+      <p class="lead">Por título, tema o palabra clave. Los resultados se actualizan mientras escribís.</p>
+    </div>
+  </header>
+
+  <div class="wrap block narrow">
+    <form class="search-box" role="search" onsubmit="return false">
+      <label class="sr-only" for="q">Buscar</label>
+      <input id="q" type="search" placeholder="Ej.: ratios, inflación, ETFs, Buffett…" autocomplete="off" autofocus />
+      <button type="submit">Buscar</button>
+    </form>
+
+    <div class="search-results" id="results" aria-live="polite">
+      <p class="search-empty">Escribí algo para empezar.</p>
+    </div>
+  </div>
+
+  <script is:inline>
+    const input = document.getElementById("q");
+    const results = document.getElementById("results");
+    let index = [];
+
+    const normalize = (value) =>
+      (value || "")
+        .toString()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+    fetch("/search.json")
+      .then((response) => response.json())
+      .then((data) => {
+        index = data;
+      })
+      .catch(() => {
+        results.innerHTML = '<p class="search-empty">No se pudo cargar el índice de búsqueda.</p>';
+      });
+
+    const escapeHtml = (value) =>
+      value.replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+
+    const render = () => {
+      const query = normalize(input.value).trim();
+      if (query.length < 2) {
+        results.innerHTML = '<p class="search-empty">Escribí al menos dos letras.</p>';
+        return;
+      }
+      const terms = query.split(/\s+/);
+      const found = index
+        .map((item) => {
+          const haystack = normalize(`${item.title} ${item.description} ${item.tags.join(" ")} ${item.text}`);
+          let score = 0;
+          for (const term of terms) {
+            if (normalize(item.title).includes(term)) score += 6;
+            if (normalize(item.tags.join(" ")).includes(term)) score += 3;
+            if (haystack.includes(term)) score += 1;
+          }
+          return { item, score };
+        })
+        .filter((entry) => entry.score > 0)
+        .sort((a, b) => b.score - a.score || new Date(b.item.date) - new Date(a.item.date))
+        .slice(0, 30);
+
+      if (!found.length) {
+        results.innerHTML = '<p class="search-empty">Sin resultados. Probá con otra palabra.</p>';
+        return;
+      }
+
+      results.innerHTML = `<div class="row-list">${found
+        .map(({ item }) => {
+          const date = new Date(item.date).toLocaleDateString("es-AR", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+          return `<a class="row-item" href="${item.url}">
+            <span class="row-date"><span class="day">${String(new Date(item.date).getDate()).padStart(2, "0")}</span><span class="month">${new Date(item.date).toLocaleDateString("es-AR", { month: "short" }).replace(".", "")}</span></span>
+            <span>
+              <span class="row-title" style="display:block">${escapeHtml(item.title)}</span>
+              <span class="row-sub">${escapeHtml(item.description || "")} · ${date}</span>
+            </span>
+            <span class="row-arrow" aria-hidden="true">→</span>
+          </a>`;
+        })
+        .join("")}</div>`;
+    };
+
+    input.addEventListener("input", render);
+  </script>
+</Base>

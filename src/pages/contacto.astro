@@ -1,0 +1,107 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../lib/site";
+---
+
+<Base
+  title="Contacto"
+  description="Escribinos: consultas, prensa, colaboraciones o sugerencias para Argcol Capital."
+>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Hablemos</span>
+      <h1>Contacto</h1>
+      <p class="lead">
+        Consultas, propuestas de colaboración, correcciones o pedidos de cobertura.
+        Leemos todo y respondemos por correo.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap block contact-grid">
+    <div>
+      <h2 style="font-size: 1.5rem; margin-bottom: 0.8rem;">Un canal directo</h2>
+      <p style="color: var(--muted);">
+        Argcol Capital es un proyecto editorial independiente sobre mercados e inversión
+        en Argentina y Colombia. No vendemos productos financieros ni administramos
+        carteras de terceros.
+      </p>
+      <p style="color: var(--muted);">
+        Para temas comerciales o de prensa, elegí el asunto correspondiente en el
+        formulario y contanos el contexto en el mensaje.
+      </p>
+      <p style="margin-top: 1.4rem; font-size: 0.85rem;">
+        <strong>Correo:</strong> <a href="mailto:contacto@argcol.com.ar">contacto@argcol.com.ar</a>
+      </p>
+      <p style="font-size: 0.85rem;">
+        <strong>Newsletter:</strong> <a href="/#suscripcion">suscripción gratuita</a>
+      </p>
+    </div>
+
+    <div class="contact-card">
+      <form id="contact-form" action={SITE.contactForm || undefined} method="post" novalidate>
+        <label class="field">
+          <span>Nombre</span>
+          <input type="text" name="nombre" required autocomplete="name" placeholder="Tu nombre" />
+        </label>
+        <label class="field">
+          <span>Correo electrónico</span>
+          <input type="email" name="email" required autocomplete="email" placeholder="tu@correo.com" />
+        </label>
+        <label class="field">
+          <span>Asunto</span>
+          <select name="asunto">
+            <option>Consulta general</option>
+            <option>Colaboración</option>
+            <option>Prensa</option>
+            <option>Corrección</option>
+            <option>Otro</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Mensaje</span>
+          <textarea name="mensaje" required placeholder="Contanos en qué podemos ayudarte…"></textarea>
+        </label>
+        <input class="sr-only" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button class="btn btn-primary" type="submit">Enviar mensaje</button>
+        <p class="form-status" id="contact-status" style="color: var(--ink);" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("contact-status");
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      if (!String(data.get("nombre") || "").trim() || !String(data.get("mensaje") || "").trim()) {
+        status.textContent = "Completá tu nombre y el mensaje.";
+        return;
+      }
+      const email = String(data.get("email") || "");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        status.textContent = "Revisá el correo electrónico.";
+        return;
+      }
+      const button = form.querySelector("button");
+      if (button) {
+        button.disabled = true;
+        button.textContent = "Enviando…";
+      }
+      try {
+        await fetch(form.action, { method: "POST", body: data, mode: "no-cors" });
+        status.textContent = "¡Gracias! Recibimos tu mensaje y te respondemos a la brevedad.";
+        form.reset();
+      } catch (error) {
+        status.textContent = "No pudimos enviar el mensaje. Probá de nuevo o escribí a contacto@argcol.com.ar.";
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.textContent = "Enviar mensaje";
+        }
+      }
+    });
+  </script>
+</Base>

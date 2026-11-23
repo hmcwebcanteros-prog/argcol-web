@@ -1,0 +1,44 @@
+---
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { allPosts } from "../../lib/posts";
+import { buildTagIndex, postsWithTag } from "../../lib/tags";
+
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return buildTagIndex(posts).map((tag) => ({
+    params: { tag: tag.slug },
+    props: { name: tag.name },
+  }));
+}
+
+const posts = await allPosts();
+const items = postsWithTag(posts, Astro.params.tag as string);
+const name = Astro.props.name as string;
+---
+
+<Base title={`${name} — etiqueta`} description={`Entradas de Argcol Capital sobre ${name}.`}>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Etiqueta</span>
+      <h1>{name}</h1>
+      <p class="lead">{items.length} {items.length === 1 ? "entrada" : "entradas"} con este tema.</p>
+      <p class="count-note"><a href="/etiquetas/">← Ver todas las etiquetas</a></p>
+    </div>
+  </header>
+
+  <div class="wrap block">
+    {items.length > 0 ? (
+      <div class="grid-3">
+        {items.map((post, index) => (
+          <Card post={post} showSection index={index} />
+        ))}
+      </div>
+    ) : (
+      <p class="empty-state">No hay entradas con esta etiqueta.</p>
+    )}
+  </div>
+
+  <Newsletter />
+</Base>

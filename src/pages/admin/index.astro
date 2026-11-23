@@ -1,0 +1,17 @@
+// Panel de publicación (Decap CMS). Se sirve en /admin/.
+// La configuración vive en public/admin/config.yml.
+const DECAP_VERSION = "3.17.3";
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Panel de publicación · Argcol Capital</title>
+  </head>
+  <body>
+    <script is:inline src={`https://unpkg.com/decap-cms@${DECAP_VERSION}/dist/decap-cms.js`}></script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Card from "../../../components/Card.astro";
+import Newsletter from "../../../components/Newsletter.astro";
+import { SECTIONS, SITE, type SectionKey } from "../../../lib/site";
+import { allPosts, paginate, sectionPosts } from "../../../lib/posts";
+
+export function getStaticPaths() {
+  return Promise.all(
+    Object.keys(SECTIONS).map(async (section) => {
+      const posts = await sectionPosts(section as SectionKey);
+      const first = paginate(posts, 1);
+      const paths = [];
+      for (let n = 2; n <= first.totalPages; n += 1) {
+        paths.push({ params: { section, page: String(n) } });
+      }
+      return paths;
+    }),
+  ).then((groups) => groups.flat());
+}
+
+const section = Astro.params.section as SectionKey;
+const pageNumber = Number(Astro.params.page);
+const meta = SECTIONS[section];
+const all = await sectionPosts(section);
+const page = paginate(all, pageNumber);
+const href = (n: number) => (n === 1 ? `/${section}/` : `/${section}/page/${n}/`);
+---
+
+<Base
+  title={`${meta.label} — página ${page.page}`}
+  description={meta.description}
+  section={meta.label}
+  noindex={page.page > 1}
+>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">{meta.kicker}</span>
+      <h1>{meta.label} · página {page.page}</h1>
+      <p class="lead">{meta.lead}</p>
+      <p class="count-note">{page.totalItems} textos · página {page.page} de {page.totalPages}</p>
+    </div>
+  </header>
+
+  <div class="wrap block">
+    <div class="grid-3">
+      {page.items.map((post, index) => (
+        <Card post={post} index={index} />
+      ))}
+    </div>
+
+    <nav class="pagination" aria-label="Paginación">
+      {page.hasPrev && <a href={href(page.page - 1)} rel="prev">← Anterior</a>}
+      {Array.from({ length: page.totalPages }, (_, i) => i + 1).map((n) =>
+        n === page.page ? (
+          <span class="is-current" aria-current="page">{n}</span>
+        ) : (
+          <a href={href(n)}>{n}</a>
+        ),
+      )}
+      {page.hasNext && <a href={href(page.page + 1)} rel="next">Siguiente →</a>}
+    </nav>
+  </div>
+
+  <Newsletter />
+</Base>

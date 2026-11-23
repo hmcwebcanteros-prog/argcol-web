@@ -1,0 +1,93 @@
+---
+import { SECTIONS, type SectionKey } from "../lib/site";
+import {
+  coverImage,
+  dayMonth,
+  excerpt,
+  formatShortDate,
+  postPath,
+  readingTime,
+  type Post,
+} from "../lib/posts";
+
+interface Props {
+  post: Post;
+  variant?: "feature" | "default" | "row";
+  showSection?: boolean;
+  index?: number;
+}
+
+const { post, variant = "default", showSection = false, index } = Astro.props;
+const { title, section, heroAlt } = post.data;
+const meta = SECTIONS[section as SectionKey];
+const image = coverImage(post);
+const href = postPath(post);
+const dm = dayMonth(post.data.date);
+const blurb = excerpt(post, variant === "row" ? 110 : 165);
+const minutes = readingTime(post);
+const eager = index === 0 && variant === "feature";
+---
+
+{
+  variant === "feature" ? (
+    <a class="feature-card" href={href}>
+      <div class="feature-media">
+        {image ? (
+          <img src={image} alt={heroAlt || title} loading={eager ? "eager" : "lazy"} decoding="async" />
+        ) : (
+          <>
+            <span class="feature-fallback" aria-hidden="true">Argcol</span>
+            <span class="feature-badge">Destacado</span>
+          </>
+        )}
+        {image && <span class="feature-badge">Destacado</span>}
+      </div>
+      <div class="feature-body">
+        <div class="meta-line">
+          <span class="chip">{meta.label}</span>
+          <span>{formatShortDate(post.data.date)}</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>{minutes} min</span>
+        </div>
+        <h2>{title}</h2>
+        <p>{blurb}</p>
+      </div>
+    </a>
+  ) : variant === "row" ? (
+    <a class="row-item" href={href}>
+      <span class="row-date" aria-hidden="true">
+        <span class="day">{dm.day}</span>
+        <span class="month">{dm.month}</span>
+      </span>
+      <span>
+        <span class="row-title" style="display:block">{title}</span>
+        {blurb && <span class="row-sub">{blurb}</span>}
+      </span>
+      <span class="row-arrow" aria-hidden="true">→</span>
+    </a>
+  ) : (
+    <a class="card" href={href}>
+      <div class="card-media">
+        {image ? (
+          <img src={image} alt={heroAlt || title} loading="lazy" decoding="async" />
+        ) : (
+          <span class="fallback" aria-hidden="true">{meta.label}</span>
+        )}
+      </div>
+      <div class="card-body">
+        <div class="meta-line">
+          {showSection && <span class="chip">{meta.label}</span>}
+          <span>{formatShortDate(post.data.date)}</span>
+          <span class="dot" aria-hidden="true"></span>
+          <span>{minutes} min</span>
+        </div>
+        <h3 class="card-title">{title}</h3>
+        {blurb && <p class="card-desc">{blurb}</p>}
+        <span class="card-foot">
+          <span>{showSection ? meta.tagline : "Seguir leyendo"}</span>
+          <span aria-hidden="true">→</span>
+        </span>
+      </div>
+    </a>
+  )
+}

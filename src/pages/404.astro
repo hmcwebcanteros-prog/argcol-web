@@ -1,0 +1,32 @@
+---
+import Base from "../layouts/Base.astro";
+import { SECTIONS, SECTION_KEYS } from "../lib/site";
+---
+
+<Base title="Página no encontrada (404)" noindex>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">Error 404</span>
+      <h1>Esta página no existe</h1>
+      <p class="lead">
+        El enlace está roto o la entrada cambió de dirección. Probá con una sección,
+        el archivo completo o el buscador.
+      </p>
+      <p class="count-note">
+        <a class="btn btn-primary" href="/">Volver al inicio</a>
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap block">
+    <div class="section-cards">
+      {SECTION_KEYS.map((key) => (
+        <a class="section-card" href={`/${key}/`}>
+          <h3>{SECTIONS[key].label}</h3>
+          <p>{SECTIONS[key].tagline}</p>
+          <span class="count">Ir a la sección</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>
