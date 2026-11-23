@@ -7,7 +7,8 @@
 
 ## 1. En 30 segundos
 
-- El sitio es un **family office**, **no un portal de noticias**. Menú superior, **idéntico en nombres y orden a `argcol.com.ar`**: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto**. El **único ítem excluido es "Access"**, por pedido explícito. El aspecto es el del rediseño (header sticky con marca AC, paleta rojo/amarillo), **sin el banner de monedas**: el usuario pidió conservar el aspecto anterior y solo cambiar los nombres del menú.
+- El sitio es un **family office**, **no un portal de noticias**. Menú superior, **idéntico en nombres y orden a `argcol.com.ar`**: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto**. El **único ítem excluido es "Access"**, por pedido explícito. Aspecto: header sticky con marca AC, paleta rojo/amarillo, **sin banner de monedas**.
+- La **home es editorial y sobria** (mucho espacio en blanco, tipografía serif, sin tarjetas de notas ni newsletter) para no parecer un blog barato.
 - El nombre visible es **solamente "Argcol Capital"**. Se quitaron "Argentina · Colombia", "Buenos Aires" y "Bogotá" de todo el branding (esos países explicaban el nombre internamente, no deben mostrarse).
 - Paleta actual: **rojo `#C8102E` + amarillo `#F2B705`**, fondos/grises claros. Las variables CSS siguen llamándose `--blue` / `--amber` por compatibilidad, pero ya no son azules.
 - Código: **Astro estático, 51 notas reales migradas, 88 páginas generadas**, build verificado (`npm.cmd run build` → OK).
@@ -22,7 +23,7 @@
 | Archivo | Cambio |
 |---|---|
 | `src/components/Header.astro` | Aspecto del rediseño (marca AC + menú en píldoras, paleta rojo/amarillo) con **los nombres y el orden del menú de Blogger**: Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto. **Sin Access** (único ítem excluido a pedido). Marca `/notas/` como activa. |
-| `src/pages/index.astro` | Home de family office: hero "Gestión patrimonial con visión de largo plazo", panel "Nuestro enfoque", bloque Servicios (4 cards), block "La firma" y últimas notas al final. |
+| `src/pages/index.astro` | Home **editorial y elegante**, sin aspecto de blog: hero sobrio ("El patrimonio, con visión de largo plazo"), declaración "Nuestra mirada", enfoque en 3 filas numeradas y cierre de contacto. **Sin tarjetas de notas, sin panel lateral y sin newsletter en la home.** Las notas viven en `/notas/` y en el footer. |
 | `src/pages/sobre.astro` | Página "Sobre la Cía." reescrita como descripción de la firma (qué hacemos, cómo trabajamos, conocimiento abierto). |
 | `src/pages/notas/index.astro` | **Nueva**: todas las notas agrupadas por año + filtros por sección, etiquetas, archivo y buscador. |
 | `src/pages/contacto.astro` | Texto y `select` de asunto adaptados a family office. |

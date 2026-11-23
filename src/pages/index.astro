@@ -1,12 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
-import Card from "../components/Card.astro";
-import Newsletter from "../components/Newsletter.astro";
 import { SITE } from "../lib/site";
-import { allPosts } from "../lib/posts";
-
-const posts = await allPosts();
-const latest = posts.slice(0, 3);
 ---
 
 <Base title="Argcol Capital — Family Office" description={SITE.description}>
@@ -14,109 +8,75 @@ const latest = posts.slice(0, 3);
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="kicker">Family Office</span>
-        <h1>Gestión patrimonial con <em>visión de largo plazo</em>.</h1>
+        <h1>El patrimonio, con <em>visión de largo plazo</em>.</h1>
         <p class="hero-lead">
           Argcol Capital acompaña a familias e inversores en la organización,
-          protección y crecimiento de su patrimonio, con independencia de criterio
-          y una mirada de largo plazo.
+          protección y crecimiento de su patrimonio. Independencia de criterio,
+          confidencialidad y disciplina en cada decisión.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="/sobre/">Conocer la firma</a>
-          <a class="btn btn-ghost" href="/contacto/">Hablemos</a>
+          <a class="text-link" href="/sobre/">Conocer la firma <span aria-hidden="true">→</span></a>
         </div>
-        <p class="hero-note">
-          <span>Gestión patrimonial</span>
-          <span>Estrategia de inversión</span>
-          <span>Planificación</span>
-        </p>
       </div>
-
-      <aside class="hero-panel" aria-label="Nuestro enfoque">
-        <span class="hero-panel-kicker">Nuestro enfoque</span>
-        <h2>Un socio para el largo plazo</h2>
-        <ul>
-          <li>Independencia en las decisiones.</li>
-          <li>Carteras diversificadas y disciplina de inversión.</li>
-          <li>Acompañamiento cercano y reportes claros.</li>
-        </ul>
-        <a class="hero-panel-link" href="/sobre/">Conocer cómo trabajamos →</a>
-      </aside>
     </div>
   </section>
 
-  <div class="wrap">
-    <section class="block">
-      <div class="block-head">
+  <section class="statement">
+    <div class="wrap statement-inner">
+      <span class="statement-label">Nuestra mirada</span>
+      <div>
+        <blockquote>
+          Proteger el capital, ordenar las decisiones y acompañar el proyecto de
+          vida de cada familia. <em>Ese es nuestro trabajo.</em>
+        </blockquote>
+        <a class="text-link" href="/sobre/">Sobre la Cía. <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach">
+    <div class="wrap">
+      <div class="approach-head">
         <div>
-          <span class="kicker">Qué hacemos</span>
-          <h2>Servicios</h2>
+          <span class="kicker">Enfoque</span>
+          <h2>Qué hacemos</h2>
         </div>
+        <a class="text-link" href="/contacto/">Hablemos <span aria-hidden="true">→</span></a>
       </div>
-      <div class="section-cards">
-        <article class="section-card">
-          <h3>Gestión patrimonial</h3>
-          <p>
-            Diseñamos y supervisamos una estrategia integral para el patrimonio
-            familiar, alineada a sus objetivos, su horizonte y su tolerancia al riesgo.
-          </p>
-        </article>
-        <article class="section-card">
-          <h3>Estrategia de inversión</h3>
-          <p>
-            Construimos carteras diversificadas y las revisamos con disciplina, con
-            foco en preservar capital y generar retorno en el largo plazo.
-          </p>
-        </article>
-        <article class="section-card">
-          <h3>Planificación</h3>
-          <p>
-            Ordenamos liquidez, riesgos y prioridades para que las decisiones
-            financieras acompañen el proyecto de vida de cada familia.
-          </p>
-        </article>
-        <article class="section-card">
-          <h3>Acompañamiento</h3>
-          <p>
-            Reportes claros y reuniones periódicas para decidir con información,
-            sin ruido y con una mirada independiente.
-          </p>
-        </article>
-      </div>
-    </section>
 
-    <section class="block corporate-about">
-      <div class="block-head">
-        <div>
-          <span class="kicker">La firma</span>
-          <h2>Argcol Capital</h2>
-        </div>
-        <a class="more-link" href="/sobre/">Sobre la Cía. →</a>
-      </div>
-      <p class="corporate-about-lead">
-        Somos una firma de family office dedicada a la gestión integral del
-        patrimonio. Trabajamos con independencia, confidencialidad y una disciplina
-        de inversión pensada para proteger el capital y hacerlo crecer a lo largo de
-        las generaciones.
-      </p>
-    </section>
+      <article class="approach-row">
+        <span class="approach-num">01</span>
+        <h3>Gestión patrimonial</h3>
+        <p>
+          Diseñamos y supervisamos una estrategia integral para el patrimonio
+          familiar, alineada a sus objetivos, su horizonte y su tolerancia al riesgo.
+        </p>
+      </article>
 
-    {latest.length > 0 && (
-      <section class="block" id="notas">
-        <div class="block-head">
-          <div>
-            <span class="kicker">Notas</span>
-            <h2>Últimas publicaciones</h2>
-          </div>
-          <a class="more-link" href="/notas/">Ver todas las notas →</a>
-        </div>
-        <div class="grid-3">
-          {latest.map((post, index) => (
-            <Card post={post} showSection index={index} />
-          ))}
-        </div>
-      </section>
-    )}
-  </div>
+      <article class="approach-row">
+        <span class="approach-num">02</span>
+        <h3>Estrategia de inversión</h3>
+        <p>
+          Construimos carteras diversificadas y las revisamos con disciplina, con
+          foco en preservar capital y generar retorno en el largo plazo.
+        </p>
+      </article>
 
-  <Newsletter />
+      <article class="approach-row">
+        <span class="approach-num">03</span>
+        <h3>Planificación y acompañamiento</h3>
+        <p>
+          Ordenamos liquidez, riesgos y prioridades, con reportes claros y reuniones
+          periódicas para decidir con información y sin ruido.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap closing-inner">
+      <h2>Una conversación, sin compromiso.</h2>
+      <a class="text-link" href="/contacto/">Escribinos <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
 </Base>
