@@ -1,179 +1,144 @@
-# Estado del proyecto — Argcol Capital (argcol.com.ar)
+# Estado del proyecto — Argcol Capital
 
 > Documento de traspaso para retomar el trabajo en cualquier sesión sin releer toda la conversación.
 > Última actualización: **2026-11-23**
 
 ---
 
-## 1. TL;DR — para ponerse al corriente en 30 segundos
+## 1. En 30 segundos
 
-- El **sitio está terminado y compila**: Astro estático, 51 entradas reales migradas de Blogger, 87 páginas generadas en `dist/` (~1,7 MB).
-- El **código ya está en GitHub**: `https://github.com/hmcwebcanteros-prog/argcol-web` (público, rama `main`). Commits: `c8d1f69` (inicial, ya en remoto) y `f1275db` (corrección de Decap, **pendiente de push** desde Desktop).
-- Dominio objetivo: **argcol.com.ar** (y `www`). Branding: **Argcol Capital = Argentina + Colombia**.
-- **Cloudflare**: el sitio **YA ESTÁ ONLINE** en `https://argcol-website.argcol-capital.workers.dev/` (verificado: HTTP 200, título "Archivo — Argcol Capital", 31 KB HTML, 92 links internos). Hay otro Worker viejo `argcol-web.argcol-capital.workers.dev` que devuelve "Hello world" → borrar.
-- Usuario de GitHub en esta PC: **`hmcwebcanteros-prog`** (el mismo de hmcanteros). No cambiar de cuenta: ambos repos viven ahí.
-- Pendientes urgentes: hacer **Push origin** en Desktop (commit `f1275db`) y agregar el dominio `argcol.com.ar`.
-
----
-
-## 2. Objetivo y requisitos del usuario
-
-- Migrar **todo** el contenido del Blogger `notas.argcol.com.ar` a un sitio estático profesional en `argcol.com.ar`.
-- Misma funcionalidad / seguridad / forma de entrada que `hmcanteros.com.ar`.
-- Stack elegido: **Astro + GitHub + Cloudflare Pages + Decap CMS + Google Apps Script** (formularios).
-- Secciones: `mercado`, `inversion`, `economia`, `empresas`, `ratios`, `etf` + colección `etiquetas`.
-- Paleta actual de marca (mantener): azul `#0451E4`, fondo `#F8FAFC`, línea `#E2E8F0`, gris `#64748B`, texto `#1E293B`, acento `#F59E0B`. Regla 60-30-10.
-- Tipografías: **Playfair Display** (títulos) + **Inter** (cuerpo).
-- El usuario quiere que **todo se explique en español** y con pasos concretos (GitHub Desktop / Cloudflare).
-- El usuario quiere **un solo login de GitHub** para los dos sitios; cambiar de cuenta es un "lío".
+- El sitio es un **family office**, **no un portal de noticias**. Menú superior: **Home · Sobre la Cía. · Argcol - E · Notas · Documentos · Contacto** (ítem **Access eliminado**).
+- El nombre visible es **solamente "Argcol Capital"**. Se quitaron "Argentina · Colombia", "Buenos Aires" y "Bogotá" de todo el branding (esos países explicaban el nombre internamente, no deben mostrarse).
+- Paleta actual: **rojo `#C8102E` + amarillo `#F2B705`**, fondos/grises claros. Las variables CSS siguen llamándose `--blue` / `--amber` por compatibilidad, pero ya no son azules.
+- Código: **Astro estático, 51 notas reales migradas, 88 páginas generadas**, build verificado (`npm.cmd run build` → OK).
+- GitHub: **`https://github.com/hmcwebcanteros-prog/argcol-web`** (público, rama `main`). Último commit **`6c62ed8` pusheado correctamente**.
+- Cloudflare: account **`argcol-capital`**, Worker **`argcol-website`**, URL **`https://argcol-website.argcol-capital.workers.dev/`**.
+- ⚠️ **Pendiente único: republicar `dist/`.** El Worker hoy sigue sirviendo la versión anterior (azul, estilo portal de noticias). El rediseño ya está en GitHub y compilado localmente, pero aún no se subió a Cloudflare. Ver §5.
 
 ---
 
-## 3. Estado completado
+## 2. Cambios de esta sesión (rediseño family office)
 
-### Contenido
-- **51 entradas reales** migradas a `src/content/posts/{seccion}/`, con fechas y slugs reales.
-  Distribución: economía 16, inversión 25, empresas 2, ETF 3, mercado 3, ratios 4.
-- **233 imágenes** recuperadas de los cuerpos Blogger (estaban dentro de `<a><img></a>` y el primer conversor las descartó; se corrigió con `rehacer_cuerpos.py`).
-- Videos de YouTube/Spotify conservados (11 entradas que solo tenían video: MILA, Friedman, etc.).
-- 20+ archivos de etiquetas en `src/content/etiquetas/`.
-- Se borraron los posts de ejemplo inventados: **solo queda contenido real**.
-
-### Código y páginas
-- `package.json` con scripts `dev` / `build` (`astro build`) / `preview`. Se quitaron referencias a `scripts/*.cjs` que no existían.
-- `astro.config.mjs`: `site: https://argcol.com.ar`, `trailingSlash: always`, formato `directory`.
-- Layout base con SEO, JSON-LD, fuentes, favicon y OG image.
-- Páginas: portada, secciones con paginación, artículo, etiquetas, archivo, buscador (`search.json.ts`), `rss.xml.ts`, `sitemap.xml.ts`, `robots.txt.ts`, 404, contacto, sobre, privacidad y `/admin`.
-- Diseño completo en `src/styles/global.css` (header sticky, hero, cards, prose de artículo, newsletter, footer, responsive, reduced-motion).
-- `public/favicon.svg` y `public/og-default.png` creados (1200×630, degradado azul + "ARGENTINA + COLOMBIA").
-- `public/admin/config.yml`: Decap CMS con `git-gateway`, 6 colecciones + etiquetas.
-- `.gitignore` (excluye `node_modules/`, `dist/`, `.astro/`) y `README.md`.
-- Build verificado: **87 páginas**, `dist/` con 95 archivos. Sin `undefined` en el HTML. Rutas de artículo verificadas con imágenes reales.
+| Archivo | Cambio |
+|---|---|
+| `src/components/Header.astro` | Menú corporativo nuevo (Home, Sobre la Cía., Argcol - E, Notas, Documentos, Contacto). Sin Access. Sin "Argentina · Colombia". Enlaces externos con `↗` y `target="_blank"`. Marca `/notas/` como activa. |
+| `src/pages/index.astro` | Home de family office: hero "Gestión patrimonial con visión de largo plazo", panel "Nuestro enfoque", bloque Servicios (4 cards), block "La firma" y últimas notas al final. |
+| `src/pages/sobre.astro` | Página "Sobre la Cía." reescrita como descripción de la firma (qué hacemos, cómo trabajamos, conocimiento abierto). |
+| `src/pages/notas/index.astro` | **Nueva**: todas las notas agrupadas por año + filtros por sección, etiquetas, archivo y buscador. |
+| `src/pages/contacto.astro` | Texto y `select` de asunto adaptados a family office. |
+| `src/components/Footer.astro` | Branding sin países; columnas "La firma / Notas / Archivo". |
+| `src/lib/site.ts` | `title: "Argcol Capital — Family Office"`, descripción de family office, `location: ""`, `author: "Argcol Capital"`. |
+| `src/layouts/Base.astro` | `theme-color` → `#C8102E`. |
+| `src/styles/global.css` | Paleta rojo/amarillo, panel del hero, `.notas-filter`, `.year-count`, `.corporate-about-lead`. Responsive conservado. |
+| `public/favicon.svg`, `public/og-default.png` | Rediseñados con rojo/amarillo y texto "Family office · Gestión patrimonial". |
+| `wrangler.jsonc`, `package.json` | **Nuevos**: config de deploy (`name: argcol-website`, `assets: ./dist`) y script `npm run deploy`. |
 
 ---
 
-## 4. Git / GitHub — estado exacto
+## 3. Contenido y páginas
+
+- **51 notas reales** migradas del Blogger `notas.argcol.com.ar` a `src/content/posts/{seccion}/`.
+  Distribución: inversión 25, economía 16, mercado 3, ETF 3, ratios 4, empresas 2.
+- 233 imágenes recuperadas de los cuerpos y videos (YouTube/Spotify) conservados.
+- Secciones: `mercado`, `inversion`, `economia`, `empresas`, `ratios`, `etf`.
+- Páginas: `/`, `/sobre/`, `/notas/`, `/contacto/`, `/archivo/`, `/etiquetas/`, `/buscar/`, `/admin/`, `/privacidad/`, secciones con paginación, artículos, `rss.xml`, `sitemap.xml`, `robots.txt`, `search.json`, 404.
+- Sitios externos verificados (HTTP 200): `https://ae.argcol.com.ar/` (Argcol - E) y `https://documentos.argcol.com.ar/`.
+
+---
+
+## 4. GitHub
 
 | Item | Valor |
 |---|---|
-| Carpeta local | `C:\Users\USUARIO\OneDrive\HMC\Aplicación web\Argcol Capital` |
-| Repo local | Inicializado por el asistente con el Git embebido de GitHub Desktop |
+| Repo (para conectar Cloudflare / clonar) | **`https://github.com/hmcwebcanteros-prog/argcol-web`** |
+| Clone | `https://github.com/hmcwebcanteros-prog/argcol-web.git` |
 | Rama | `main` |
-| Commit | `c8d1f69` — "Sitio inicial de Argcol Capital: Astro + 51 entradas migradas de Blogger" |
-| Remote origin | `https://github.com/hmcwebcanteros-prog/argcol-web.git` |
-| Visibilidad | **Pública** (verificado vía API: `privado=False`) |
-| Archivos en raíz remota | `.gitignore`, `README.md`, `_migracion/`, `astro.config.mjs`, `package-lock.json`, `package.json`, `public/`, `src/` |
-| Cuenta GitHub en esta PC | `hmcwebcanteros-prog` (credencial guardada en Windows) |
-| Repo de hmcanteros | `https://github.com/hmcwebcanteros-prog/Hmcanteros-web.git` |
+| Commit actual | `6c62ed8` — "Rediseño family office: menú corporativo, paleta rojo/amarillo, página Notas y quitar Argentina/Colombia" |
+| Estado | ✅ pusheado. `git status` limpio. No hace falta tocar GitHub Desktop. |
+| Cuenta GitHub en esta PC | `hmcwebcanteros-prog` (no cambiar de cuenta: el repo de hmcanteros también vive ahí) |
 
-**Git executable** (no está en el PATH):
-```
-C:\Users\USUARIO\AppData\Local\GitHubDesktop\app-3.6.11\resources\app\git\cmd\git.exe
-```
-
-**No hacer**: cambiar de cuenta en Desktop ni usar "Publish repository". Siempre *Push origin* con `hmcwebcanteros-prog`.
-
-### ✅ Corrección de Decap (hecha el 2026-11-23)
-`public/admin/config.yml` línea 11 se corrigió a:
-```yaml
-repo: hmcwebcanteros-prog/argcol-web
-```
-Commit local `f1275db` creado y build verificado (87 páginas). **Falta el Push origin desde GitHub Desktop**: la terminal del asistente no tiene credenciales de GitHub (`fatal: could not read Username`). Remoto todavía solo tiene `c8d1f69`.
+Si en el futuro el push desde la terminal vuelve a pedir usuario (Git Credential Manager abre un diálogo que se cancela), usar **GitHub Desktop → Push origin**, o el token OAuth guardado en el Administrador de credenciales de Windows.
+Git no está en el PATH: `C:\Users\USUARIO\AppData\Local\GitHubDesktop\app-3.6.11\resources\app\git\cmd\git.exe`.
 
 ---
 
-## 5. Cloudflare — estado exacto
+## 5. Cloudflare — cómo terminar el deploy (único paso pendiente)
 
-- Usuario Cloudflare nuevo creado para Argcol: **`argcol-capital`** (distinto del de hmcanteros).
-- Por error se creó un **Worker** con Git conectado: `https://argcol-web.argcol-capital.workers.dev/` → devuelve `Hello world` (`text/plain`, 11 bytes). **No es el sitio**; se puede borrar.
-- La pantalla que pedía *Deploy command: npx wrangler deploy* era de **Workers**, no de Pages. En Pages no se usa wrangler.
-- Se indicó al usuario crear el proyecto en **Workers & Pages → pestaña "Pages" → Create a project → Connect to Git**.
-- Link directo: `https://dash.cloudflare.com/?to=/:account/pages/new`
-- Configuración correcta del build:
+Estado actual verificado:
 
-| Campo | Valor |
+| URL | Resultado |
 |---|---|
-| Framework preset | Astro |
-| Build command | `npm run build` |
-| Build output directory | `dist` |
-| Root directory | `/` |
-| Deploy command | *(vacío)* |
-| Preview command | *(vacío)* |
+| `https://argcol-website.argcol-capital.workers.dev/` | HTTP 200 — **versión vieja** ("Argcol Capital — Mercados, inversión y economía") |
+| `https://argcol-website.argcol-capital.workers.dev/archivo/` | HTTP 200 — versión vieja |
+| `https://argcol-web.argcol-capital.workers.dev/` | HTTP 200, 11 bytes, "Hello world" → **Worker viejo, se puede borrar** |
 
-- **Estado al escribir esto**: el usuario dice "está trabajando" (deploy en curso). Falta la URL `*.pages.dev`.
+### Opción A — dashboard (la más simple, sin instalar nada)
+1. Entrar a `https://dash.cloudflare.com/` con la cuenta **`argcol-capital`**.
+2. **Workers & Pages → argcol-website → Settings → Assets** (o la pestaña *Deployments* / *Build*).
+3. Subir/arrastrar la carpeta **`dist`** completa:
+   `C:\Users\USUARIO\OneDrive\HMC\Aplicación web\Argcol Capital\dist`
+4. Esperar el deployment y recargar la URL con `Ctrl+F5`.
 
-### Links útiles
-- Repo: https://github.com/hmcwebcanteros-prog/argcol-web
-- Clone: https://github.com/hmcwebcanteros-prog/argcol-web.git
-- Instalar GitHub App si no aparece el repo: https://github.com/apps/cloudflare/installations/new
+### Opción B — Wrangler (recomendado para futuras actualizaciones)
+Ya quedó preparado `wrangler.jsonc` y el script `npm run deploy`. Solo la primera vez:
+
+```
+npx wrangler login
+```
+
+Después, cada vez que haya cambios:
+
+```
+npm.cmd run build
+npm run deploy
+```
+
+Si wrangler pregunta qué cuenta usar, elegir **`argcol-capital`**. El `name` del Worker ya es `argcol-website`, así que se actualiza el mismo sitio.
+
+### Verificación después de publicar
+- La home debe mostrar **"Gestión patrimonial con visión de largo plazo"**.
+- El menú debe tener 6 ítems y **no** "Access".
+- El `<title>` debe ser **"Argcol Capital — Family Office"**.
+- No debe aparecer "Argentina", "Colombia", "Buenos Aires" ni "Bogotá" en header/footer.
+- Comando rápido:
+  ```
+  $u="https://argcol-website.argcol-capital.workers.dev/"; $h=(Invoke-WebRequest $u -UseBasicParsing).Content; [regex]::Match($h,'<title>(.*?)</title>').Groups[1].Value; $h.Contains("visi")
+  ```
+
+### Tareas opcionales posteriores
+- Agregar el dominio **`argcol.com.ar`** y `www.argcol.com.ar` en *Workers & Pages → argcol-website → Settings → Domains & Routes* (requiere que la zona DNS esté en la cuenta `argcol-capital`).
+- Borrar el Worker `argcol-web` ("Hello world") para evitar confusión.
+- Decap CMS `/admin/`: sigue con autenticación pendiente (git-gateway / DecapBridge). No bloquea el sitio público.
 
 ---
 
-## 6. Pendientes (en orden)
+## 6. Apps Script (formularios)
 
-1. **Confirmar deploy de Cloudflare Pages** y obtener la URL `https://<proyecto>.pages.dev` (no `.workers.dev`). Verificar desde acá con `Invoke-WebRequest`: título debe contener "Argcol Capital" y el HTML debe tener links internos.
-2. **Corregir `public/admin/config.yml`** → `repo: hmcwebcanteros-prog/argcol-web`, commit + push.
-3. **Dominio**: agregar `argcol.com.ar` y `www.argcol.com.ar` en *Pages → Custom domains*.
-   - ❓ Pregunta abierta: **¿el DNS de `argcol.com.ar` está en la cuenta Cloudflare nueva (`argcol-capital`) o en la vieja de hmcanteros?** Lo ideal es que Pages y la zona DNS estén en la misma cuenta. Si está en otra, hay que mover la zona o usar CNAME → `<proyecto>.pages.dev`.
-4. **Decap CMS / DecapBridge**: los campos de autenticación están comentados como PENDIENTE en `config.yml`. Hay que registrar el sitio en DecapBridge (o GitHub OAuth / Netlify Identity), completar y volver a desplegar. Sin esto `/admin/` no permite editar.
-5. **Probar formularios** contra el Apps Script desplegado (newsletter y contacto).
-6. **Borrar el Worker "Hello world"** para evitar confusión.
-7. Verificación final de rutas: `/`, `/mercado/`, `/ratios/2025/01/sortino-y-sqn/`, `/etiquetas/`, `/buscar/`, `/admin/`.
+URL desplegada (hardcodeada en `src/lib/site.ts`):
 
----
-
-## 7. Apps Script (formularios)
-
-URL desplegada (ya hardcoded en `src/lib/site.ts`, newsletter y contacto):
 ```
 https://script.google.com/macros/s/AKfycbxqGZydGL6ttvuPmc8QS9RCtm8eqSOMvrUDQ_9LmzHKa9LYYJ2i6telRYAQbToxOzBR/exec
 ```
 
-- Newsletter envía: `email`, `website` (honeypot), `origen`.
-- Contacto envía: `nombre`, `email`, `asunto`, `mensaje`, `website` (honeypot). El disparador es `mensaje` no vacío.
-- Código fuente del script: `_migracion/apps-script-sitio.gs`.
-- Email usado en `git config user.email` local: `contacto@argcol.com.ar`.
+- Newsletter: `email`, `website` (honeypot), `origen`.
+- Contacto: `nombre`, `email`, `asunto`, `mensaje`, `website` (honeypot).
+- Código fuente: `_migracion/apps-script-sitio.gs`.
 
 ---
 
-## 8. Archivos clave
+## 7. Particularidades del entorno (para no repetir errores)
 
-Todos bajo `C:\Users\USUARIO\OneDrive\HMC\Aplicación web\Argcol Capital\`:
-
-| Archivo | Para qué sirve |
-|---|---|
-| `ESTADO.md` | Este resumen |
-| `README.md` | Documentación del proyecto |
-| `src/styles/global.css` | Sistema de diseño completo |
-| `src/layouts/Base.astro` | SEO, fuentes, JSON-LD, header/footer |
-| `src/lib/site.ts` | SECTIONS, SITE, URLs de Apps Script |
-| `src/lib/posts.ts` | Fechas, rutas, portadas, excerpts, relacionados |
-| `src/pages/[section]/[year]/[month]/[slug].astro` | Plantilla de artículo (import depth `../../../../`) |
-| `public/admin/config.yml` | Decap CMS (⚠️ repo a corregir) |
-| `public/favicon.svg`, `public/og-default.png` | Identidad visual |
-| `_migracion/migrar_v2.py` | Migración original desde el feed de Blogger |
-| `_migracion/rehacer_cuerpos.py` | Reescritura de cuerpos conservando imágenes/iframes |
-
-El feed `https://notas.argcol.com.ar/feeds/posts/default?alt=json&max-results=500` devuelve solo 52 entradas (51 migradas + 1 descartada).
+- La ruta tiene acento: **`Aplicación`**. Usar siempre el parámetro `workdir` de la herramienta `shell`.
+- En PowerShell usar **`npm.cmd`** (el `npm.ps1` está bloqueado por política de ejecución) y `powershell.exe -ExecutionPolicy Bypass` para scripts `.ps1` propios.
+- Para ejecutar git: el exe de GitHub Desktop indicado en §4.
+- La salida de PowerShell muestra mojibake con acentos, pero **los archivos están correctos en UTF-8**.
+- Los warnings de Git `LF will be replaced by CRLF` son inofensivos.
+- Las herramientas de browser suelen dar timeout en este entorno; verificar páginas con `Invoke-WebRequest`.
 
 ---
 
-## 9. Particularidades del entorno (para no repetir errores)
-
-- La ruta tiene acento: **`Aplicación`**. Usar el parámetro `workdir` del tool `shell` para no romperla.
-- En PowerShell usar **`npm.cmd`** (el `npm.ps1` está bloqueado por política de ejecución).
-- `git` no está en el PATH; usar el exe de GitHub Desktop indicado arriba.
-- Las herramientas de **browser** dan timeout (app de escritorio no adjunta). Verificar páginas con `Invoke-WebRequest`.
-- Este modelo **no puede leer imágenes**: si el usuario manda capturas, pedir que **pegue el texto del error**.
-- La salida de PowerShell muestra mojibake ( código de página ), pero **los archivos están bien en UTF-8**.
-- Los warnings de Git sobre `LF will be replaced by CRLF` son inofensivos.
-- No hay repo git en la carpeta de hmcanteros que se deba tocar; es independiente.
-
----
-
-## 10. Cómo retomar en la próxima sesión
+## 8. Retomar en otra sesión
 
 1. Leer este archivo.
-2. Preguntar: "¿Tenés ya la URL `pages.dev` de Cloudflare?" y verificarla.
-3. Si hay error, pedir **texto**, no captura.
-4. Seguir la lista de pendientes del punto 6.
+2. Si el sitio sigue con el diseño azul, seguir **§5 Opción A o B** y verificar.
+3. Todo lo demás (contenido, código, GitHub) ya está listo.
