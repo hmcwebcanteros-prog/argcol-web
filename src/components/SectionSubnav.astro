@@ -1,0 +1,42 @@
+---
+import { SUBMENUS, type SectionKey } from "../lib/site";
+
+interface Props {
+  section: SectionKey;
+}
+
+const { section } = Astro.props;
+const groups = SUBMENUS[section];
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+const isActive = (href: string, external?: boolean) =>
+  !external && href.replace(/\/+$/, "") === path;
+---
+
+{
+  groups && (
+    <nav class="section-subnav" aria-label={`Secciones de ${section}`}>
+      <div class="wrap">
+        {groups.map((group) => (
+          <div class="subnav-group">
+            {group.label && <span class="subnav-label">{group.label}</span>}
+            <div class="subnav-items">
+              {group.items.map((item) => (
+                <a
+                  href={item.href}
+                  class="subnav-link"
+                  aria-current={isActive(item.href, item.external) ? "page" : undefined}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
+                >
+                  {item.label}
+                  {item.external && <span aria-hidden="true"> ↗</span>}
+                </a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </nav>
+  )
+}

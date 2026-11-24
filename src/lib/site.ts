@@ -105,6 +105,74 @@ export const SECTION_KEYS = Object.keys(SECTIONS) as SectionKey[];
 export const isSection = (value: string): value is SectionKey =>
   (SECTION_KEYS as string[]).includes(value);
 
+/** Submenús internos que replican los de los sitios originales. */
+export interface SubnavItem {
+  label: string;
+  href: string;
+  external?: boolean;
+}
+
+export interface SubnavGroup {
+  label?: string;
+  items: SubnavItem[];
+}
+
+export const SUBMENUS: Partial<Record<SectionKey, SubnavGroup[]>> = {
+  "argcol-e": [
+    {
+      items: [
+        { label: "Notas", href: "/argcol-e/" },
+        { label: "¿Qué es?", href: "/argcol-e/que-es/" },
+        { label: "Objetivos", href: "/argcol-e/objetivos/" },
+        { label: "Intrumentos", href: "/argcol-e/intrumentos/" },
+        { label: "Estrategias", href: "/argcol-e/estrategias/" },
+        { label: "Rendimientos", href: "/argcol-e/rendimientos/" },
+        { label: "Broker", href: "/argcol-e/broker/" },
+        { label: "¿Cómo se invierte?", href: "/argcol-e/como-se-invierte/" },
+        { label: "Gestor", href: "/argcol-e/gestor/" },
+      ],
+    },
+    {
+      label: "Informes ARGCOL",
+      items: [
+        { label: "Informes mensuales", href: "/argcol-e/informes-mensuales/" },
+        { label: "Informes anuales", href: "/documentos/" },
+      ],
+    },
+  ],
+  documentos: [
+    {
+      items: [
+        { label: "Cierre diario de mercados", href: "/documentos/cierres-de-mercados/" },
+        { label: "Cierre semanal de mercados", href: "/documentos/informe-semanal-de-mercados/" },
+        { label: "Informes mensuales", href: "/documentos/informes-mensuales/" },
+        { label: "Informes especiales", href: "/documentos/informes-especiales/" },
+        {
+          label: "Spotify",
+          href: "https://open.spotify.com/show/69xRTY8iZITm3kMIXJWLq5",
+          external: true,
+        },
+      ],
+    },
+  ],
+};
+
+/**
+ * Páginas que, además de su texto, muestran el listado de entradas
+ * asociadas a una o más etiquetas (equivalente a las páginas de Blogger).
+ */
+export const LISTING_PAGES: Record<string, { tags: string[] }> = {
+  "argcol-e/informes-mensuales": { tags: ["Informes mensuales"] },
+  "documentos/cierres-de-mercados": { tags: ["Cierre de mercados"] },
+  "documentos/informe-semanal-de-mercados": { tags: ["Cierre semanal de mercados"] },
+  "documentos/informes-mensuales": {
+    tags: ["Informe mensual de mercados", "Informes mensuales"],
+  },
+  "documentos/informes-especiales": {
+    tags: ["Informe especial de mercados", "Informes especiales"],
+  },
+};
+
 /** datos verificables del autor/origen. */
 export const BIO = {
   born: "",

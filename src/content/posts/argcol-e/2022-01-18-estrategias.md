@@ -3,7 +3,7 @@ title: "Estrategias"
 date: "2022-01-18T21:08:00.000-03:00"
 slug: "estrategias"
 section: "argcol-e"
-type: "articulo"
+type: "pagina"
 tags: []
 description: "¿Mantener los activos en su cartera durante un periodo de tiempo largo o cambiar los activos en el corto plazo en cuestión de días, horas o minutos? Esta es la principal..."
 hero: "https://blogger.googleusercontent.com/img/a/AVvXsEh4ZsEhyI5bzGX6aP820oCisilS5w7JEx2_KnMKpHNrh_TAoKwO1BnCiew2g8v5LaCEeAuIbWP4HqDsFmto2H-P3ySzXGVmSus3GhfvZIUIZhIMQ5hL_DsjxTGHsstKLLQ1E5f48BoF7GrtTew5sHDs2mE37tvy7gv5CZcmsuY_hTx1HkLHWni_0TSS=w400-h213"

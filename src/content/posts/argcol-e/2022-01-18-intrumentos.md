@@ -3,7 +3,7 @@ title: "Intrumentos"
 date: "2022-01-18T21:07:00.000-03:00"
 slug: "intrumentos"
 section: "argcol-e"
-type: "articulo"
+type: "pagina"
 tags: []
 description: "Para lograr los objetivos de inversión a largo plazo, invertiremos en: RENTA VARIABLES : o En empresas de gran capitalización. o Que dichas empresas coticen en bolsas de valores..."
 hero: "https://blogger.googleusercontent.com/img/a/AVvXsEiCFmHpiK47c7U9Tb32hxKg_6JdBk7uDOEevKm6vsLr46cmeSRIVXEQyb0_jZ5aLZtSeMKQoQPPnAMzV7SnsInKf1Sk0KYJSxlauk4sb0Bh8p_z-t808sAoX5TKAvVuIi5XqksKUvLA5UkkOMXP3fQrrmXQFe8iZkEyVbY6xRZpipGa_qljvc2pHv5F=w400-h266"

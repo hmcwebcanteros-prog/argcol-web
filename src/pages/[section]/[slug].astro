@@ -1,0 +1,110 @@
+---
+import Base from "../../layouts/Base.astro";
+import Card from "../../components/Card.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import SectionSubnav from "../../components/SectionSubnav.astro";
+import { getEntry, render } from "astro:content";
+import { LISTING_PAGES, SECTIONS, type SectionKey } from "../../lib/site";
+import { allPosts, coverImage, excerpt, sectionPosts } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await allPosts();
+  return posts
+    .filter((post) => post.data.type === "pagina")
+    .map((post) => ({
+      params: {
+        section: post.data.section,
+        slug: post.data.slug,
+      },
+      props: { id: post.id },
+    }));
+}
+
+const post = await getEntry("posts", Astro.props.id);
+if (!post) {
+  throw new Error("Página no encontrada");
+}
+
+const { Content } = await render(post);
+const section = post.data.section as SectionKey;
+const meta = SECTIONS[section];
+const image = coverImage(post);
+const description = excerpt(post, 180);
+const listing = LISTING_PAGES[`${section}/${post.data.slug}`];
+
+let items: Awaited<ReturnType<typeof sectionPosts>> = [];
+if (listing) {
+  const wanted = listing.tags.map((tag) => tag.toLowerCase());
+  items = (await sectionPosts(section)).filter((entry) =>
+    entry.data.tags.some((tag) => wanted.includes(tag.toLowerCase())),
+  );
+}
+---
+
+<Base
+  title={post.data.title}
+  description={description}
+  image={image}
+  section={meta.label}
+>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="kicker">{meta.label}</span>
+      <h1>{post.data.title}</h1>
+      {post.data.description && <p class="lead">{post.data.description}</p>}
+    </div>
+  </header>
+
+  <SectionSubnav section={section} />
+
+  <div class="wrap article-shell">
+    <article class="article">
+      {post.data.hero && (
+        <figure class="article-cover">
+          <img
+            src={post.data.hero}
+            alt={post.data.heroAlt || post.data.title}
+            width="1200"
+            height="675"
+            loading="eager"
+          />
+        </figure>
+      )}
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {listing && (
+        <section class="page-listing" aria-label={`Entradas de ${post.data.title}`}>
+          <div class="block-head">
+            <div>
+              <span class="kicker">Archivo</span>
+              <h2>Entradas publicadas</h2>
+            </div>
+            <a class="more-link" href={`/${section}/`}>Ver todo {meta.label} →</a>
+          </div>
+
+          {items.length > 0 ? (
+            <div class="grid-3">
+              {items.map((item, index) => (
+                <Card post={item} index={index} />
+              ))}
+            </div>
+          ) : (
+            <p class="empty-state">
+              Todavía no hay entradas publicadas en esta serie. Las novedades se irán incorporando
+              aquí.
+            </p>
+          )}
+        </section>
+      )}
+
+      <p class="page-back">
+        <a href={`/${section}/`}>← Volver a {meta.label}</a>
+      </p>
+    </article>
+  </div>
+
+  <Newsletter />
+</Base>

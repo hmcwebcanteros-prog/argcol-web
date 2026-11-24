@@ -3,7 +3,7 @@ title: "Objetivos"
 date: "2022-01-18T21:07:00.000-03:00"
 slug: "objetivos"
 section: "argcol-e"
-type: "articulo"
+type: "pagina"
 tags: []
 description: "Nos proponemos a largo plazo: Que los retornos de la cartera superen la inflación. Que los retornos de la cartera superen los dos dígitos en el largo plazo, de forma anualizada...."
 hero: "https://blogger.googleusercontent.com/img/a/AVvXsEg8NZ-0qLiDP1ZtG5_1a71N6LQtVZhS2nbbYYmeMjR9bbzod9MT1Xx5bipyORq4TCwZBcHyWZnGMzjGbIlo7ZXXX6rgH0TwHe1hkJPzLoCgJmYsloendoGT_L1hCzquEJeIXZHR8rSBoV1pazptoxxBEqdnVGKGd9ctiiT-YaVlX-ckiD5IAtZ7F54O=w523-h348"

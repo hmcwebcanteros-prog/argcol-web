@@ -2,6 +2,7 @@
 import Base from "../../../layouts/Base.astro";
 import Card from "../../../components/Card.astro";
 import Newsletter from "../../../components/Newsletter.astro";
+import SectionSubnav from "../../../components/SectionSubnav.astro";
 import { SECTIONS, SITE, type SectionKey } from "../../../lib/site";
 import { allPosts, paginate, sectionPosts } from "../../../lib/posts";
 
@@ -41,6 +42,8 @@ const href = (n: number) => (n === 1 ? `/${section}/` : `/${section}/page/${n}/`
       <p class="count-note">{page.totalItems} textos · página {page.page} de {page.totalPages}</p>
     </div>
   </header>
+
+  <SectionSubnav section={section} />
 
   <div class="wrap block">
     <div class="grid-3">

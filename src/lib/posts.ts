@@ -44,7 +44,11 @@ export function yearMonth(date: Date): { year: string; month: string } {
   };
 }
 
+/** Las páginas fijas (qué es, objetivos, gestor…) no son entradas de blog. */
+export const isPage = (post: Post): boolean => post.data.type === "pagina";
+
 export function postPath(post: Post): string {
+  if (isPage(post)) return `/${post.data.section}/${post.data.slug}/`;
   const { year, month } = yearMonth(post.data.date);
   return `/${post.data.section}/${year}/${month}/${post.data.slug}/`;
 }
@@ -93,9 +97,15 @@ export async function allPosts(): Promise<Post[]> {
   return posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 }
 
+/** Solo entradas de blog (excluye páginas fijas). */
+export async function allArticles(): Promise<Post[]> {
+  const posts = await allPosts();
+  return posts.filter((post) => !isPage(post));
+}
+
 export async function sectionPosts(section: SectionKey): Promise<Post[]> {
   const posts = await allPosts();
-  return posts.filter((post) => post.data.section === section);
+  return posts.filter((post) => post.data.section === section && !isPage(post));
 }
 
 export function paginate<T>(items: T[], page: number, perPage = SITE.perPage) {
@@ -169,7 +179,7 @@ export function groupByYear(posts: Post[]): { year: string; posts: Post[] }[] {
 export function relatedPosts(post: Post, posts: Post[], limit = 3): Post[] {
   const current = new Set((post.data.tags ?? []).map((tag) => tag.toLowerCase()));
   const scored = posts
-    .filter((item) => item.id !== post.id)
+    .filter((item) => item.id !== post.id && !isPage(item))
     .map((item) => {
       const tags = (item.data.tags ?? []).map((tag) => tag.toLowerCase());
       const shared = tags.filter((tag) => current.has(tag)).length;

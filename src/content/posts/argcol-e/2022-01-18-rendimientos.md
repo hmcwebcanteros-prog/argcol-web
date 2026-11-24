@@ -3,7 +3,7 @@ title: "Rendimientos"
 date: "2022-01-18T21:09:00.000-03:00"
 slug: "rendimientos"
 section: "argcol-e"
-type: "articulo"
+type: "pagina"
 tags: []
 description: "<iframe frameborder=\"0\" height=\"237\" scrolling=\"no\" seamless=\"\" src=\"https://docs.google.com/spreadsheets/d/e/2PACX 1vRs4R9Nq8ytVthtglh..."
 hero: ""

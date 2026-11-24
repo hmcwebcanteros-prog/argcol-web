@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { allPosts, excerpt, postPath, postUrl } from "../lib/posts";
+import { allArticles, excerpt, postPath, postUrl } from "../lib/posts";
 import { SITE } from "../lib/site";
 
 const escape = (value: string) =>
@@ -11,7 +11,7 @@ const escape = (value: string) =>
     .replace(/'/g, "&apos;");
 
 export const GET: APIRoute = async () => {
-  const posts = await allPosts();
+  const posts = await allArticles();
   const items = posts
     .map(
       (post) => `    <item>

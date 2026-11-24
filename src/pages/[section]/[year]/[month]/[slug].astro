@@ -2,6 +2,7 @@
 import Base from "../../../../layouts/Base.astro";
 import Card from "../../../../components/Card.astro";
 import Newsletter from "../../../../components/Newsletter.astro";
+import SectionSubnav from "../../../../components/SectionSubnav.astro";
 import { getEntry, render } from "astro:content";
 import { SECTIONS, SITE, type SectionKey } from "../../../../lib/site";
 import {
@@ -19,7 +20,7 @@ import {
 import { tagPath, slugify } from "../../../../lib/tags";
 
 export async function getStaticPaths() {
-  const posts = await allPosts();
+  const posts = (await allPosts()).filter((post) => post.data.type !== "pagina");
   return posts.map((post) => {
     const { year, month } = yearMonth(post.data.date);
     return {
@@ -60,6 +61,8 @@ const published = post.data.date;
   published={published}
   section={meta.label}
 >
+  <SectionSubnav section={section} />
+
   <div class="wrap article-shell">
     <article class="article">
       <header class="article-head">

@@ -1059,6 +1059,83 @@ hr {
   color: var(--muted);
 }
 
+/* Submenú interno de secciones (hereda los menús de Blogger) */
+.section-subnav {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.section-subnav .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.5rem;
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.subnav-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.subnav-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.subnav-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.subnav-link {
+  display: inline-block;
+  padding: 0.36rem 0.72rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+}
+
+.subnav-link:hover {
+  color: var(--blue);
+  background: var(--blue-soft);
+  border-color: rgba(4, 81, 228, 0.3);
+}
+
+.subnav-link[aria-current="page"] {
+  color: #fff;
+  background: var(--blue);
+  border-color: var(--blue);
+}
+
+/* Páginas fijas con listado adjunto */
+.page-listing {
+  margin-top: 3rem;
+  padding-top: 2.2rem;
+  border-top: 1px solid var(--line);
+}
+
+.page-listing .grid-3 {
+  margin-top: 1.4rem;
+}
+
+.page-back {
+  margin-top: 2.6rem;
+  font-size: 0.86rem;
+}
+
 /* ============================================================
    Entrada
    ============================================================ */

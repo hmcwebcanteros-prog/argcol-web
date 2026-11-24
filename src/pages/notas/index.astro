@@ -3,9 +3,9 @@ import Base from "../../layouts/Base.astro";
 import Card from "../../components/Card.astro";
 import Newsletter from "../../components/Newsletter.astro";
 import { SECTIONS, SECTION_KEYS } from "../../lib/site";
-import { allPosts, groupByYear } from "../../lib/posts";
+import { allArticles, groupByYear } from "../../lib/posts";
 
-const posts = await allPosts();
+const posts = await allArticles();
 const years = groupByYear(posts);
 ---
 

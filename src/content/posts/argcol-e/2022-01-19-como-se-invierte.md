@@ -3,7 +3,7 @@ title: "Cómo se invierte?"
 date: "2022-01-19T17:28:00.000-03:00"
 slug: "como-se-invierte"
 section: "argcol-e"
-type: "articulo"
+type: "pagina"
 tags: []
 description: "<iframe frameborder=\"0\" height=\"371\" scrolling=\"no\" seamless=\"\" src=\"https://docs.google.com/spreadsheets/d/e/2PACX 1vRs4R9Nq8ytVthtglh..."
 hero: ""
