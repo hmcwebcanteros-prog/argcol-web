@@ -276,15 +276,24 @@ hr {
   border-bottom: 1px solid var(--line);
 }
 
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  opacity: 0.12;
+  filter: grayscale(100%) contrast(1.05);
+}
+
 .hero::before {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 45%;
-  height: 100%;
-  background: radial-gradient(900px 520px at 100% 0%, rgba(4, 81, 228, 0.055), transparent 70%);
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.88) 45%, rgba(255,255,255,0.72) 100%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .hero::after {
@@ -297,6 +306,7 @@ hr {
 
 .hero-grid {
   position: relative;
+  z-index: 2;
   display: block;
   padding: clamp(5rem, 11vw, 9rem) 0 clamp(4.5rem, 9vw, 7rem);
 }
@@ -454,6 +464,32 @@ hr {
 
 .statement .text-link {
   margin-top: 2.4rem;
+}
+
+/* Imagen de quiebre visual */
+.visual-break {
+  position: relative;
+  height: clamp(220px, 28vw, 380px);
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.visual-break img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  filter: grayscale(100%) contrast(1.02);
+  opacity: 0.88;
+}
+
+.visual-break::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.22) 100%);
+  pointer-events: none;
 }
 
 /* Enfoque en filas, sin tarjetas */

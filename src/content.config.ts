@@ -27,7 +27,7 @@ const posts = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     slug: z.string().transform((value) => slugify(value)),
-    section: z.enum(["mercado", "inversion", "economia", "empresas", "ratios", "etf"]),
+    section: z.enum(["mercado", "inversion", "economia", "empresas", "ratios", "etf", "argcol-e", "documentos"]),
     type: z.string().default("articulo"),
     tags: z.array(z.string()).default([]),
     description: z.string().default(""),

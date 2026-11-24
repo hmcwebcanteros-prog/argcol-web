@@ -78,6 +78,24 @@ export const SECTIONS = {
     lead: "Comparativa de ETFs, análisis de rendimiento y estrategia con fondos indexados.",
     count: " textos",
   },
+  "argcol-e": {
+    label: "Argcol - E",
+    kicker: "Plataforma de inversión",
+    tagline: "Análisis, informes y estrategia",
+    description:
+      "Informes de inversión, análisis de empresas, estrategia y rendimientos de Argcol - E.",
+    lead: "Informes, análisis financieros, estrategia y seguimiento de la plataforma de inversión Argcol - E.",
+    count: " textos",
+  },
+  documentos: {
+    label: "Documentos",
+    kicker: "Biblioteca",
+    tagline: "Documentos e informes",
+    description:
+      "Documentos, informes y material de referencia de Argcol Capital.",
+    lead: "Informes, documentos y material de referencia para consulta.",
+    count: " documentos",
+  },
 } as const;
 
 export type SectionKey = keyof typeof SECTIONS;
